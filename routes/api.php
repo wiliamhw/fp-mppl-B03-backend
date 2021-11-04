@@ -27,3 +27,10 @@ Route::middleware('auth:web')->group(static function () {
 Route::apiResource('/settings', 'SettingsController')->only(['index', 'show']);
 Route::apiResource('/seo_metas', 'SeoMetasController')->only(['index', 'show']);
 Route::apiResource('/static_pages', 'StaticPagesController')->only(['index', 'show']);
+
+Route::get('/test', function () {
+    return [
+        'data' => 'Mantap!! Apknya sudah tersambung dengan backend, hehe :)'
+    ];
+});
+
