@@ -42,7 +42,6 @@ Vagrantfile
 # Composer & Vendor Files
 # ----------------------------------------------------------------------- #
 
-composer.lock
 composer.phar
 /vendor
 Dockerfile
