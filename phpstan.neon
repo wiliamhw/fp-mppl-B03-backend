@@ -1,0 +1,37 @@
+includes:
+    - vendor/nunomaduro/larastan/extension.neon
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor/ekino/phpstan-banned-code/extension.neon
+
+parameters:
+    level: 8
+    checkMissingIterableValueType: false
+    paths:
+        - app
+        - cms
+    excludePaths:
+        - cms/helpers.php
+    ignoreErrors:
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Builder|Spatie\\QueryBuilder\\QueryBuilder::allowedFields\(\).#'
+        - '#Method Cms\\Jobs\\ExportDatatable::query\(\) should return Illuminate\\Database\\Query\\Builder but returns Illuminate\\Database\\Eloquent\\Builder.#'
+        - '#Call to an undefined method Cms\\Providers\\CmsServiceProvider::where\(\).#'
+        - '#Access to protected property RichanFongdasen\\I18n\\Locale::\$language.#'
+    banned_code:
+            nodes:
+                - type: Expr_FuncCall
+                  functions:
+                      - dd
+                      - debug_backtrace
+                      - die
+                      - dump
+                      - echo
+                      - eval
+                      - exec
+                      - exit
+                      - passthru
+                      - phpinfo
+                      - print_r
+                      - proc_open
+                      - shell_exec
+                      - system
+                      - var_dump

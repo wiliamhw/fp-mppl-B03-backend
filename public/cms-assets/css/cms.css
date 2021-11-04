@@ -1,0 +1,94 @@
+.dt-per-page-selector {
+    width: auto;
+}
+
+.dt-top-right-container {
+    text-align: right;
+}
+
+.dt-search-input {
+    margin-left: 0.5em;
+    display: inline-block;
+    width: auto;
+}
+
+.dt-pagination-container {
+    display: inline-block;
+    width: auto;
+    float: right;
+}
+.dt-pagination-btn-disabled {
+    background-color: #e0e3eb !important;
+    border-color: #e0e3eb !important;
+    color: #5e6279 !important;
+    cursor: default !important;
+}
+.dt-pagination-btn-disabled i {
+    color: #9eA2B9 !important;
+}
+.dt-pagination-container .btn-hover-primary {
+    cursor: default !important;
+}
+
+.dt-center-container thead th {
+    --bg-opacity: 1;
+    background-color: #f7fafc;
+    background-color: rgba(247,250,252,var(--bg-opacity));
+    padding-top: 1.3rem;
+    padding-bottom: 1.3rem;
+    border-color: #e2e8f0;
+    border-bottom-width: 2px;
+    border-bottom: 2px solid #e2e8f0 !important;
+}
+.dt-center-container tbody td {
+    padding-top: 1.3rem;
+    padding-bottom: 1.3rem;
+    border-color: #e2e8f0;
+}
+.dt-center-container tbody tr:hover {
+    --bg-opacity: .8;
+    background-color: #f7fafc;
+    background-color: rgba(247,250,252,var(--bg-opacity));
+}
+
+.dt-center-container .checkbox.checkbox-outline {
+    width: 20px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.dt-column-visibility-options:hover {
+    background-color: #eeeeee;
+    cursor: pointer;
+}
+
+table.datatable-sortable .sortable {
+    position: relative;
+    padding-right: 24px;
+    cursor: pointer;
+}
+table.datatable-sortable .sortable:after {
+    font-family: 'Font Awesome 5 Free';
+    content: ' ';
+    position: absolute;
+    height: 0;
+    width: 0;
+    right: 20px;
+    top: 18px;
+    color: #3699ff;
+}
+table.datatable-sortable .sortable:hover {
+    background-color: #fcf7ea;
+}
+table.datatable-sortable .sortable.sort_asc,
+table.datatable-sortable .sortable.sort_desc
+{
+    color: #3699ff;
+}
+table.datatable-sortable .sortable.sort_asc:after {
+    content: '\f15e';
+}
+table.datatable-sortable .sortable.sort_desc:after {
+    content: '\f881';
+}
+
