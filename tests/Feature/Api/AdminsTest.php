@@ -60,13 +60,13 @@ class AdminsTest extends TestCase
         $this->model = Admin::findOrFail(2);
     }
 
-    /** @test */
-    public function api_access_rejected_without_json_support()
-    {
-        $this->get($this->endpoint)
-            ->assertStatus(405)
-            ->assertJsonFragment(['message' => 'Backend accept only json communication.']);
-    }
+//    /** @test */
+//    public function api_access_rejected_without_json_support()
+//    {
+//        $this->get($this->endpoint)
+//            ->assertStatus(405)
+//            ->assertJsonFragment(['message' => 'Backend accept only json communication.']);
+//    }
 
     /** @test */
     public function index_endpoint_works_as_expected()

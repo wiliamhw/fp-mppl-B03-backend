@@ -28,19 +28,3 @@ Route::get('/admins', 'Admins\AdminsIndex')->name('admins.index');
 Route::get('/admins/create', 'Admins\CreateAdmin')->name('admins.create');
 Route::get('/admins/{admin}', 'Admins\ShowAdmin')->name('admins.show');
 Route::get('/admins/{admin}/edit', 'Admins\EditAdmin')->name('admins.edit');
-
-/**
- * Begin route definition for `Seo Metas` resources.
- */
-Route::get('/seo_metas', 'SeoMetas\SeoMetasIndex')->name('seo_metas.index');
-Route::get('/seo_metas/create', 'SeoMetas\CreateSeoMeta')->name('seo_metas.create');
-Route::get('/seo_metas/{seoMeta}', 'SeoMetas\ShowSeoMeta')->name('seo_metas.show');
-Route::get('/seo_metas/{seoMeta}/edit', 'SeoMetas\EditSeoMeta')->name('seo_metas.edit');
-
-/**
- * Begin route definition for `Static Pages` resources.
- */
-Route::get('/static_pages', 'StaticPages\StaticPagesIndex')->name('static_pages.index');
-Route::get('/static_pages/create', 'StaticPages\CreateStaticPage')->name('static_pages.create');
-Route::get('/static_pages/{staticPage}', 'StaticPages\ShowStaticPage')->name('static_pages.show');
-Route::get('/static_pages/{staticPage}/edit', 'StaticPages\EditStaticPage')->name('static_pages.edit');
