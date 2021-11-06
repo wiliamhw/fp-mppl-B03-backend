@@ -42,7 +42,7 @@
         "spatie/laravel-activitylog": "^4.1",
         "spatie/laravel-backup": "^7.6",
         "spatie/laravel-json-api-paginate": "^1.10",
-        "spatie/laravel-medialibrary-pro": "^1.17",
+        "spatie/laravel-medialibrary": "^9.8",
         "spatie/laravel-permission": "^5.1",
         "spatie/laravel-query-builder": "^3.6",
         "spatie/laravel-sluggable": "^3.1"

@@ -7,13 +7,11 @@ use Cms\Livewire\Concerns\ResolveCurrentAdmin;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
-use Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
 
 abstract class SeoMetaForm extends Component
 {
     use AuthorizesRequests;
     use ResolveCurrentAdmin;
-    use WithMedia;
 
     /**
      * Register the media component names.

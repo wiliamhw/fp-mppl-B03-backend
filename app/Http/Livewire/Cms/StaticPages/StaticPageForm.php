@@ -8,13 +8,11 @@ use Cms\Livewire\Concerns\WithSeoMeta;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
-use Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
 
 abstract class StaticPageForm extends Component
 {
     use AuthorizesRequests;
     use ResolveCurrentAdmin;
-    use WithMedia;
     use WithSeoMeta;
 
     /**

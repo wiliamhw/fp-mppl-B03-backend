@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 /**
  * Add MediaLibrary routes to support temporary file uploads.
  */
-Route::mediaLibrary();
 
 Route::get('/', function () {
     return view('welcome');

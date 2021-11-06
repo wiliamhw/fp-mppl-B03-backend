@@ -9,7 +9,6 @@ use ErrorException;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Exceptions\PropertyNotFoundException;
 use RichanFongdasen\I18n\I18nService;
-use Spatie\MediaLibraryPro\Http\Livewire\Concerns\WithMedia;
 
 trait WithSeoMeta
 {
