@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 
-Route::middleware('auth:web')->group(static function () {
+Route::middleware('auth:web')->group(function () {
     Route::apiResource('/admins', 'AdminsController')->only(['index', 'show']);
     Route::apiResource('/permissions', 'PermissionsController')->only(['index', 'show']);
     Route::apiResource('/roles', 'RolesController')->only(['index', 'show']);
@@ -30,13 +30,12 @@ Route::get('/test', function () {
 });
 
 Route::post('/users/login',  [UserLoginController::class, 'login'])->name('login');
-Route::apiResource('/settings', 'SettingsController')->only(['index', 'show']);
-
-Route::middleware(['auth:sanctum'])->group(static function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/test/login', function (Request $request) {
         return $request->user();
     });
-//    Route::get('/users/logout',  [UserLoginController::class, 'login'])->name('logout');
+    Route::get('/users/logout',  [UserLoginController::class, 'logout'])->name('logout');
 });
 
 Route::apiResource('/users', 'UsersController');
+Route::apiResource('/settings', 'SettingsController')->only(['index', 'show']);

@@ -9,7 +9,7 @@ use App\Traits\ApiResponse;
 use Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
-use Request;
+use Illuminate\Http\Request;
 
 class UserLoginController extends Controller
 {

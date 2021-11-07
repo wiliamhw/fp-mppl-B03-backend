@@ -4,6 +4,9 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * @SuppressWarnings(unused)
+ */
 class UppercaseExist implements Rule
 {
     /**

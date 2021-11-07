@@ -3,7 +3,6 @@
 namespace Tests\Feature\Api\Endpoints;
 
 use App\Models\User;
-use App\Models\User;
 use Faker\Generator;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -52,9 +51,9 @@ class UsersTest extends TestCase
         $this->seed(['PermissionSeeder', 'RoleSeeder']);
 
         $this->faker = new Generator();
-        $this->user = User::factory()->create()->assignRole('super-administrator');
+//        $this->user = User::factory()->create()->assignRole('super-administrator');
 
-        $this->actingAs($this->user, config('api.cms_guard'));
+//        $this->actingAs($this->user, config('api.cms_guard'));
 
         $this->model = User::factory()->create();
     }
@@ -66,10 +65,8 @@ class UsersTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment([
                 'email' => $this->model->getAttribute('email'),
-                'password' => $this->model->getAttribute('password'),
                 'name' => $this->model->getAttribute('name'),
                 'phone_number' => $this->model->getAttribute('phone_number'),
-                'remember_token' => $this->model->getAttribute('remember_token'),
             ]);
     }
 
@@ -80,10 +77,8 @@ class UsersTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment([
                 'email' => $this->model->getAttribute('email'),
-                'password' => $this->model->getAttribute('password'),
                 'name' => $this->model->getAttribute('name'),
                 'phone_number' => $this->model->getAttribute('phone_number'),
-                'remember_token' => $this->model->getAttribute('remember_token'),
             ]);
     }
 
@@ -95,6 +90,7 @@ class UsersTest extends TestCase
 
         // The data which should be shown
         $seenData = $data;
+        unset($seenData['password']);
 
         $this->postJson($this->endpoint, $data)
             ->assertStatus(201)
@@ -109,6 +105,7 @@ class UsersTest extends TestCase
 
         // The data which should be shown
         $seenData = $data;
+        unset($seenData['password']);
 
         $this->patchJson($this->endpoint.$this->model->getKey(), $data)
             ->assertStatus(200)
@@ -118,26 +115,24 @@ class UsersTest extends TestCase
     /** @test */
     public function delete_endpoint_works_as_expected()
     {
+        $this->assertDatabaseHas('users', [
+            'email' => $this->model->getAttribute('email'),
+            'password' => $this->model->getAttribute('password'),
+            'name' => $this->model->getAttribute('name'),
+            'phone_number' => $this->model->getAttribute('phone_number'),
+        ]);
+
         $this->deleteJson($this->endpoint.$this->model->getKey())
             ->assertStatus(200)
             ->assertJsonFragment([
                 'info' => 'The user has been deleted.',
             ]);
 
-        $this->assertDatabaseHas('users', [
-            'email' => $this->model->getAttribute('email'),
-            'password' => $this->model->getAttribute('password'),
-            'name' => $this->model->getAttribute('name'),
-            'phone_number' => $this->model->getAttribute('phone_number'),
-            'remember_token' => $this->model->getAttribute('remember_token'),
-        ]);
-
         $this->assertDatabaseMissing('users', [
             'email' => $this->model->getAttribute('email'),
             'password' => $this->model->getAttribute('password'),
             'name' => $this->model->getAttribute('name'),
             'phone_number' => $this->model->getAttribute('phone_number'),
-            'remember_token' => $this->model->getAttribute('remember_token'),
             'deleted_at' => null,
         ]);
     }

@@ -7,6 +7,8 @@ use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\QueryBuilders\UserBuilder;
+use Cms\Resources\Concerns\StripResourceElements;
+use Hash;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -16,6 +18,8 @@ use Illuminate\Http\JsonResponse;
  */
 class UsersController extends Controller
 {
+    use StripResourceElements;
+
     /**
      * Determine if any access to this resource require authorization.
      *
@@ -80,8 +84,9 @@ class UsersController extends Controller
      */
     public function store(UserSaveRequest $request, User $user): JsonResponse
     {
-        $user->fill($request->only($user->offsetGet('fillable')))
-            ->save();
+        $userData = $request->only($user->offsetGet('fillable'));
+        $userData['password'] = Hash::make($userData['password']);
+        $user->fill($userData)->save();
 
         $resource = (new UserResource($user))
             ->additional([

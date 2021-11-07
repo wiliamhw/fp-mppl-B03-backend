@@ -8,14 +8,18 @@ use App\Models\DiscussionTopic;
 use App\Models\UserWebinar;
 use App\Models\Webinar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory;
+    use HasApiTokens;
+    use HasRoles;
 
     /**
      * The attributes that should be mutated to dates.
@@ -37,6 +41,15 @@ class User extends Model
         'password',
         'name',
         'phone_number',
+    ];
+
+    /**
+     * The attributes that should be hidden
+     *
+     * @var string[]
+     */
+    protected $hidden = [
+        'password',
     ];
 
 //    /**
