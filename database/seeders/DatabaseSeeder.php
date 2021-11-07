@@ -16,10 +16,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PermissionSeeder::class);
         $this->call(RoleSeeder::class);
-        $this->call(SeoMetaSeeder::class);
         $this->call(SettingSeeder::class);
-        $this->call(StaticPageSeeder::class);
 
         Artisan::call('cms:create-admin');
+        $this->call(UserSeeder::class);
     }
 }

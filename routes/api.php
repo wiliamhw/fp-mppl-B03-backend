@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,8 +26,6 @@ Route::middleware('auth:web')->group(static function () {
 });
 
 Route::apiResource('/settings', 'SettingsController')->only(['index', 'show']);
-Route::apiResource('/seo_metas', 'SeoMetasController')->only(['index', 'show']);
-Route::apiResource('/static_pages', 'StaticPagesController')->only(['index', 'show']);
 
 Route::get('/test', function () {
     return [
@@ -34,3 +33,6 @@ Route::get('/test', function () {
     ];
 });
 
+Route::post('/login',  [LoginController::class, 'login'])->name('token.store');
+//Route::post('/register',  [LoginController::class, 'register'])->name('token.store');
+//Route::apiResource('/users', 'UsersController');

@@ -2,84 +2,95 @@
 
 namespace App\Models;
 
+use App\Models\CollabRequest;
+use App\Models\Comment;
+use App\Models\DiscussionTopic;
+use App\Models\UserWebinar;
+use App\Models\Webinar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Laravel\Sanctum\HasApiTokens;
 
-/**
- * App\Models\User.
- *
- * @property int                             $id
- * @property string                          $name
- * @property string                          $email
- * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property string                          $password
- * @property string|null                     $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read int|null $notifications_count
- *
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
- * @mixin \Eloquent
- *
- * @method static \Database\Factories\UserFactory factory(...$parameters)
- */
-class User extends Authenticatable
+class User extends Model
 {
-    use HasFactory;
-    use LogsActivity;
-    use Notifiable;
+    use HasFactory, HasApiTokens;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var string[]
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
 
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'name',
+        'phone_number',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
-     * Define the activity log options for the model.
-     *
-     * @return LogOptions
-     */
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
-    }
+//    /**
+//     * Model relationship definition.
+//     * User has many CollabRequests
+//     *
+//     * @return HasMany
+//     */
+//    public function collabRequests(): HasMany
+//    {
+//        return $this->hasMany(CollabRequest::class, 'user_id');
+//    }
+//
+//    /**
+//     * Model relationship definition.
+//     * User has many Comments
+//     *
+//     * @return HasMany
+//     */
+//    public function comments(): HasMany
+//    {
+//        return $this->hasMany(Comment::class, 'user_id');
+//    }
+//
+//    /**
+//     * Model relationship definition.
+//     * User belongs to many DiscussionTopics
+//     *
+//     * @return BelongsToMany
+//     */
+//    public function discussionTopics(): BelongsToMany
+//    {
+//        return $this->belongsToMany(DiscussionTopic::class, 'comments');
+//    }
+//
+//    /**
+//     * Model relationship definition.
+//     * User has many UserWebinars
+//     *
+//     * @return HasMany
+//     */
+//    public function userWebinars(): HasMany
+//    {
+//        return $this->hasMany(UserWebinar::class, 'user_id');
+//    }
+//
+//    /**
+//     * Model relationship definition.
+//     * User belongs to many Webinars
+//     *
+//     * @return BelongsToMany
+//     */
+//    public function webinars(): BelongsToMany
+//    {
+//        return $this->belongsToMany(Webinar::class, 'user_webinar');
+//    }
 }
