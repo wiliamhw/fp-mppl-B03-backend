@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\DigitExist;
+use App\Rules\LowercaseExist;
+use App\Rules\UppercaseExist;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserSaveRequest extends FormRequest
@@ -25,11 +28,10 @@ class UserSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email|min:11|max:255',
-            'password' => 'required|string|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/',
+            'email' => 'required|string|email|min:11|max:255|unique:users,email',
+            'password' => ['required', 'string', new UppercaseExist(), new LowercaseExist(), new DigitExist()],
             'name' => 'required|string|min:2|max:255',
             'phone_number' => 'required|string|regex:/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/|max:16',
-            'remember_token' => 'required|string|min:2|max:100',
         ];
     }
 }

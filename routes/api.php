@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserLoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,14 +25,18 @@ Route::middleware('auth:web')->group(static function () {
     Route::apiResource('/roles', 'RolesController')->only(['index', 'show']);
 });
 
-Route::apiResource('/settings', 'SettingsController')->only(['index', 'show']);
-
 Route::get('/test', function () {
-    return [
-        'data' => 'Mantap!! Apknya sudah tersambung dengan backend, hehe :)'
-    ];
+    return ['data' => 'Mantap!! Apknya sudah tersambung dengan backend, hehe :)'];
 });
 
-Route::post('/login',  [LoginController::class, 'login'])->name('token.store');
-//Route::post('/register',  [LoginController::class, 'register'])->name('token.store');
-//Route::apiResource('/users', 'UsersController');
+Route::post('/users/login',  [UserLoginController::class, 'login'])->name('login');
+Route::apiResource('/settings', 'SettingsController')->only(['index', 'show']);
+
+Route::middleware(['auth:sanctum'])->group(static function () {
+    Route::get('/test/login', function (Request $request) {
+        return $request->user();
+    });
+//    Route::get('/users/logout',  [UserLoginController::class, 'login'])->name('logout');
+});
+
+Route::apiResource('/users', 'UsersController');

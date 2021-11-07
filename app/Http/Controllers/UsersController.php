@@ -21,7 +21,7 @@ class UsersController extends Controller
      *
      * @var bool
      */
-    protected static $requireAuthorization = true;
+    protected static $requireAuthorization = false;
 
     /**
      * UsersController constructor.
@@ -84,7 +84,10 @@ class UsersController extends Controller
             ->save();
 
         $resource = (new UserResource($user))
-            ->additional(['info' => 'The new user has been saved.']);
+            ->additional([
+                'info'  => 'The new user has been saved.',
+                'token' => $user->createToken('ApiToken')->plainTextToken
+            ]);
 
         return $resource->toResponse($request)->setStatusCode(201);
     }
