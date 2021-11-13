@@ -49,36 +49,38 @@ class UsersTest extends TestCase
         parent::setUp();
 
         $this->seed(['PermissionSeeder', 'RoleSeeder']);
-
         $this->faker = new Generator();
-//        $this->user = User::factory()->create()->assignRole('super-administrator');
 
-//        $this->actingAs($this->user, config('api.cms_guard'));
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
 
-        $this->model = User::factory()->create();
+        User::factory()->count(3)->create();
+        $this->model = User::findOrFail(2);
     }
 
     /** @test */
-    public function index_endpoint_works_as_expected()
+    public function login_endpoint_works_as_expected()
     {
-        $this->getJson($this->endpoint)
-            ->assertStatus(200)
-            ->assertJsonFragment([
-                'email' => $this->model->getAttribute('email'),
-                'name' => $this->model->getAttribute('name'),
-                'phone_number' => $this->model->getAttribute('phone_number'),
+        $data = [
+            'email'     => $this->model->getAttribute('email'),
+            'password'  => 'password'
+        ];
+        $response = $this->postJson($this->endpoint.'login', $data);
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => ['token']
             ]);
     }
 
     /** @test */
     public function show_endpoint_works_as_expected()
     {
-        $this->getJson($this->endpoint.$this->model->getKey())
+        $this->getJson($this->endpoint)
             ->assertStatus(200)
             ->assertJsonFragment([
-                'email' => $this->model->getAttribute('email'),
-                'name' => $this->model->getAttribute('name'),
-                'phone_number' => $this->model->getAttribute('phone_number'),
+                'email' => $this->user->getAttribute('email'),
+                'name' => $this->user->getAttribute('name'),
+                'phone_number' => $this->user->getAttribute('phone_number'),
             ]);
     }
 
@@ -95,6 +97,8 @@ class UsersTest extends TestCase
         $this->postJson($this->endpoint, $data)
             ->assertStatus(201)
             ->assertJsonFragment($seenData);
+
+        $this->assertDatabaseHas('users', $seenData);
     }
 
     /** @test */
@@ -107,33 +111,36 @@ class UsersTest extends TestCase
         $seenData = $data;
         unset($seenData['password']);
 
-        $this->patchJson($this->endpoint.$this->model->getKey(), $data)
+        $this->patchJson($this->endpoint, $data)
             ->assertStatus(200)
             ->assertJsonFragment($seenData);
+
+        $this->assertDatabaseHas('users', $seenData);
     }
 
     /** @test */
-    public function delete_endpoint_works_as_expected()
+    public function sanctum_middleware_allow_authenticated_user()
     {
-        $this->assertDatabaseHas('users', [
-            'email' => $this->model->getAttribute('email'),
-            'password' => $this->model->getAttribute('password'),
-            'name' => $this->model->getAttribute('name'),
-            'phone_number' => $this->model->getAttribute('phone_number'),
-        ]);
+        $data = [
+            'email'     => $this->user->getAttribute('email'),
+            'password'  => 'password'
+        ];
+        $response = $this->postJson($this->endpoint.'login', $data);
 
-        $this->deleteJson($this->endpoint.$this->model->getKey())
-            ->assertStatus(200)
+        $this->getJson('/api/test/login', [
+            'Authorization' => $response['data']['token']
+        ])->assertStatus(200)
             ->assertJsonFragment([
-                'info' => 'The user has been deleted.',
+                'email' => $this->user->getAttribute('email'),
+                'name'  => $this->user->getAttribute('name'),
+                'phone_number' => $this->user->getAttribute('phone_number'),
             ]);
+    }
 
-        $this->assertDatabaseMissing('users', [
-            'email' => $this->model->getAttribute('email'),
-            'password' => $this->model->getAttribute('password'),
-            'name' => $this->model->getAttribute('name'),
-            'phone_number' => $this->model->getAttribute('phone_number'),
-            'deleted_at' => null,
-        ]);
+    /** @test */
+    public function logout_endpoint_works_as_expected()
+    {
+        $this->getJson($this->endpoint.'logout')
+            ->assertStatus(200);
     }
 }
