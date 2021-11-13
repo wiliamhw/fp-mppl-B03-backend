@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\UserLoginController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,12 +27,15 @@ Route::middleware('auth:web')->group(function () {
 });
 
 Route::get('/test', [TestController::class, 'connection'])->name('test');
+Route::post('/users/login',  [UsersController::class, 'login'])->name('users.login');
+Route::post('/users', [UsersController::class, 'store'])->name('users.store');
 
-Route::post('/users/login',  [UserLoginController::class, 'login'])->name('login');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/test/login', [TestController::class, 'login'])->name('test.login');
-    Route::get('/users/logout',  [UserLoginController::class, 'logout'])->name('logout');
+
+    Route::get('/users',  [UsersController::class, 'show'])->name('users.show');
+    Route::put('/users',  [UsersController::class, 'update'])->name('users.update');
+    Route::get('/users/logout',  [UsersController::class, 'logout'])->name('users.logout');
 });
 
-Route::apiResource('/users', 'UsersController');
 Route::apiResource('/settings', 'SettingsController')->only(['index', 'show']);
