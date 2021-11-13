@@ -3,8 +3,6 @@
 <!--begin::Head-->
 <head>
 
-    {!! SEO::tags() !!}
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!--begin::Fonts-->

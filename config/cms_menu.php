@@ -29,12 +29,6 @@ return [
                     'permission' => 'cms.roles.view',
                 ],
                 [
-                    'title'      => 'SEO Metas',
-                    'url'        => '/cms/seo_metas',
-                    'icon'       => 'menu-icon fa fa-robot',
-                    'permission' => 'cms.seo_metas.view',
-                ],
-                [
                     'title'      => 'Settings',
                     'url'        => '/cms/settings',
                     'icon'       => 'menu-icon fa fa-cog',
@@ -47,14 +41,7 @@ return [
             'url'        => 'javascript:void(0);',
             'icon'       => 'menu-icon fa fa-globe',
             'permission' => 'access-cms',
-            'children'   => [
-                [
-                    'title'      => 'Static Pages',
-                    'url'        => '/cms/static_pages',
-                    'icon'       => 'menu-icon fa fa-file-code',
-                    'permission' => 'cms.static_pages.view',
-                ],
-            ],
+            'children'   => [],
         ],
     ],
 
