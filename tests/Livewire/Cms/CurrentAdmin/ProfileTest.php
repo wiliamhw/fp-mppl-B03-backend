@@ -42,7 +42,6 @@ class ProfileTest extends TestCase
     {
         $this->get($this->getCmsUrl('/current-admin/profile'))
             ->assertStatus(200)
-            ->assertSee('noindex, nofollow, noimageindex, noarchive, nosnippet')
             ->assertSeeLivewire('cms.nav.header-mobile')
             ->assertSeeLivewire('cms.nav.side-bar')
             ->assertSeeLivewire('cms.nav.header')

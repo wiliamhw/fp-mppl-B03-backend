@@ -29,7 +29,7 @@ class UserSaveRequest extends FormRequest
     {
         return [
             'email' => 'required|string|email|min:11|max:255|unique:users,email',
-            'password' => ['required', 'string', new UppercaseExist(), new LowercaseExist(), new DigitExist()],
+            'password' => ['required', 'string', 'min:8', new UppercaseExist(), new LowercaseExist(), new DigitExist()],
             'name' => 'required|string|min:2|max:255',
             'phone_number' => 'required|string|regex:/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/|max:16',
         ];

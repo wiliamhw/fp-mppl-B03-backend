@@ -28,7 +28,7 @@ class UserFactory extends Factory
 
             'email' => $this->faker->safeEmail,
             'password' => Hash::make('password'), // password
-            'name' => $this->faker->text(rand(128, 255)),
+            'name' => $this->faker->text(rand(5, 32)),
             'phone_number' => $this->faker->e164PhoneNumber,
         ];
     }

@@ -19,8 +19,14 @@ return [
                 [
                     'title'      => 'Admins',
                     'url'        => '/cms/admins',
-                    'icon'       => 'menu-icon fa fa-user',
+                    'icon'       => 'menu-icon fa fa-user-cog',
                     'permission' => 'cms.admins.view',
+                ],
+                [
+                    'title'      => 'Users',
+                    'url'        => '/cms/users',
+                    'icon'       => 'menu-icon fa fa-user',
+                    'permission' => 'cms.users.view',
                 ],
                 [
                     'title'      => 'Roles',

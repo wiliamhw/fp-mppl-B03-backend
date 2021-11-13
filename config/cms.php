@@ -5,7 +5,7 @@ return [
     /**
      * Specify the CMS name or title.
      */
-    'name' => 'Tampil',
+    'name' => 'TampilCMS',
 
     /**
      * Specify the CMS tagline.

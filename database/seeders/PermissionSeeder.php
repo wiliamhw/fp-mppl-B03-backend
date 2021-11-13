@@ -18,9 +18,8 @@ class PermissionSeeder extends Seeder
 
         $this->createResourcePermissionsFor('admins');
         $this->createResourcePermissionsFor('roles');
-        $this->createResourcePermissionsFor('seo_metas');
         $this->createResourcePermissionsFor('settings');
-        $this->createResourcePermissionsFor('static_pages');
+        $this->createResourcePermissionsFor('users');
     }
 
     /**

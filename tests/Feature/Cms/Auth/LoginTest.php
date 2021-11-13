@@ -44,8 +44,7 @@ class LoginTest extends TestCase
     public function login_page_is_accessible()
     {
         $this->get($this->getAuthUrl('/login'))
-            ->assertStatus(200)
-            ->assertSee('noindex, nofollow, noimageindex, noarchive, nosnippet');
+            ->assertStatus(200);
     }
 
     /** @test */

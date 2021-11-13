@@ -28,3 +28,12 @@ Route::get('/admins', 'Admins\AdminsIndex')->name('admins.index');
 Route::get('/admins/create', 'Admins\CreateAdmin')->name('admins.create');
 Route::get('/admins/{admin}', 'Admins\ShowAdmin')->name('admins.show');
 Route::get('/admins/{admin}/edit', 'Admins\EditAdmin')->name('admins.edit');
+
+
+/**
+ * Begin route definition for `Users` resources.
+ */
+Route::get('/users', 'Users\UsersIndex')->name('users.index');
+Route::get('/users/create', 'Users\CreateUser')->name('users.create');
+Route::get('/users/{user}', 'Users\ShowUser')->name('users.show');
+Route::get('/users/{user}/edit', 'Users\EditUser')->name('users.edit');
