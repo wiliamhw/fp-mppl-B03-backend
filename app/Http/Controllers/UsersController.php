@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
-    use HandleApiExceptions;
     use ApiResponse;
 
     /**
@@ -37,7 +36,7 @@ class UsersController extends Controller
 
             return $this->sendData([
                 'token' => $user->createToken('ApiToken')->plainTextToken
-            ]);
+            ], 'The user has been logged in.');
         } catch (\Exception $e) {
             return $this->renderApiException($e);
         }
@@ -115,7 +114,7 @@ class UsersController extends Controller
     {
         try {
             $request->user()->tokens()->delete();
-            return $this->sendData()->add;
+            return $this->sendOk('The user has been logged out.');
         } catch (\Exception $e) {
             return $this->renderApiException($e);
         }

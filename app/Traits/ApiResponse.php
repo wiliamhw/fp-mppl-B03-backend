@@ -2,24 +2,25 @@
 
 namespace App\Traits;
 
+use App\Exceptions\Concerns\HandleApiExceptions;
 use Illuminate\Http\JsonResponse;
 
 trait ApiResponse
 {
-    public function sendOk(string $status = 'OK', int $code = 200): JsonResponse
+    use HandleApiExceptions;
+
+    public function sendOk(string $info = 'OK', int $code = 200): JsonResponse
     {
         return response()->json([
-            'code' => $code,
-            'status' => $status
+            'info' => $info
         ], $code);
     }
 
-    public function sendData(mixed $data, string $status = 'OK', int $code = 200): JsonResponse
+    public function sendData(mixed $data, string $info = 'OK', int $code = 200): JsonResponse
     {
         return response()->json([
-            'code' => $code,
-            'status' => $status,
-            'data' => $data
+            'data' => $data,
+            'info' => $info
         ], $code);
     }
 }
