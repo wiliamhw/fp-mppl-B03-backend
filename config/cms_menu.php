@@ -23,12 +23,6 @@ return [
                     'permission' => 'cms.admins.view',
                 ],
                 [
-                    'title'      => 'Users',
-                    'url'        => '/cms/users',
-                    'icon'       => 'menu-icon fa fa-user',
-                    'permission' => 'cms.users.view',
-                ],
-                [
                     'title'      => 'Roles',
                     'url'        => '/cms/roles',
                     'icon'       => 'menu-icon fa fa-users',
@@ -47,7 +41,20 @@ return [
             'url'        => 'javascript:void(0);',
             'icon'       => 'menu-icon fa fa-globe',
             'permission' => 'access-cms',
-            'children'   => [],
+            'children'   => [
+                [
+                    'title'      => 'Users',
+                    'url'        => '/cms/users',
+                    'icon'       => 'menu-icon fa fa-user',
+                    'permission' => 'cms.users.view',
+                ],
+                [
+                    'title'      => 'Categories',
+                    'url'        => '/cms/categories',
+                    'icon'       => 'menu-icon fa fa-list-alt',
+                    'permission' => 'cms.categories.view',
+                ],
+            ],
         ],
     ],
 
