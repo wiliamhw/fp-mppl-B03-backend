@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserLoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,15 +26,11 @@ Route::middleware('auth:web')->group(function () {
     Route::apiResource('/roles', 'RolesController')->only(['index', 'show']);
 });
 
-Route::get('/test', function () {
-    return ['data' => 'Mantap!! Apknya sudah tersambung dengan backend, hehe :)'];
-});
+Route::get('/test', [TestController::class, 'connection'])->name('test');
 
 Route::post('/users/login',  [UserLoginController::class, 'login'])->name('login');
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/test/login', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/test/login', [TestController::class, 'login'])->name('test.login');
     Route::get('/users/logout',  [UserLoginController::class, 'logout'])->name('logout');
 });
 
