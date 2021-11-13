@@ -40,7 +40,6 @@ class DashboardTest extends TestCase
 
         $this->get($this->getCmsUrl('/'))
             ->assertStatus(200)
-            ->assertSee('noindex, nofollow, noimageindex, noarchive, nosnippet')
             ->assertSeeLivewire('cms.nav.header-mobile')
             ->assertSeeLivewire('cms.nav.side-bar')
             ->assertSeeLivewire('cms.nav.header')

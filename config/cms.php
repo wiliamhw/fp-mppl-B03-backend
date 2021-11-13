@@ -5,7 +5,7 @@ return [
     /**
      * Specify the CMS name or title.
      */
-    'name' => 'Tampil',
+    'name' => 'TampilCMS',
 
     /**
      * Specify the CMS tagline.
@@ -76,7 +76,7 @@ return [
     /**
      * Specify the CMS author's url.
      */
-    'author_url' => 'https://suitmedia.com/',
+    'author_url' => 'https://tampil.id/',
 
     /**
      * Specify the Copyright year.

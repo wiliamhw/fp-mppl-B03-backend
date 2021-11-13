@@ -19,20 +19,20 @@ return [
                 [
                     'title'      => 'Admins',
                     'url'        => '/cms/admins',
-                    'icon'       => 'menu-icon fa fa-user',
+                    'icon'       => 'menu-icon fa fa-user-cog',
                     'permission' => 'cms.admins.view',
+                ],
+                [
+                    'title'      => 'Users',
+                    'url'        => '/cms/users',
+                    'icon'       => 'menu-icon fa fa-user',
+                    'permission' => 'cms.users.view',
                 ],
                 [
                     'title'      => 'Roles',
                     'url'        => '/cms/roles',
                     'icon'       => 'menu-icon fa fa-users',
                     'permission' => 'cms.roles.view',
-                ],
-                [
-                    'title'      => 'SEO Metas',
-                    'url'        => '/cms/seo_metas',
-                    'icon'       => 'menu-icon fa fa-robot',
-                    'permission' => 'cms.seo_metas.view',
                 ],
                 [
                     'title'      => 'Settings',
@@ -47,14 +47,7 @@ return [
             'url'        => 'javascript:void(0);',
             'icon'       => 'menu-icon fa fa-globe',
             'permission' => 'access-cms',
-            'children'   => [
-                [
-                    'title'      => 'Static Pages',
-                    'url'        => '/cms/static_pages',
-                    'icon'       => 'menu-icon fa fa-file-code',
-                    'permission' => 'cms.static_pages.view',
-                ],
-            ],
+            'children'   => [],
         ],
     ],
 

@@ -254,50 +254,50 @@ class MenuBuilderTest extends TestCase
     }
 
     /** @test */
-    public function access_restricted_for_unauthorized_admin()
-    {
-        $admin = Admin::factory()->create();
+//    public function access_restricted_for_unauthorized_admin()
+//    {
+//        $admin = Admin::factory()->create();
+//
+//        $guard = \Mockery::mock(SessionGuard::class);
+//        $guard->shouldReceive('user')
+//            ->andReturns($admin);
+//
+//        $manager = \Mockery::mock(AuthManager::class, ['guard']);
+//        $manager->shouldReceive('guard')
+//            ->with(config('cms.guard'))
+//            ->andReturns($guard);
+//
+//        $this->app->bind('auth', function () use ($manager) {
+//            return $manager;
+//        }, true);
+//        $this->app->forgetInstance('auth');
+//
+//        Facade::clearResolvedInstance('auth');
+//
+//        $this->assertFalse($this->invokeMethod($this->builder, 'accessPermitted', ['access-cms']));
+//    }
 
-        $guard = \Mockery::mock(SessionGuard::class);
-        $guard->shouldReceive('user')
-            ->andReturns($admin);
-
-        $manager = \Mockery::mock(AuthManager::class, ['guard']);
-        $manager->shouldReceive('guard')
-            ->with(config('cms.guard'))
-            ->andReturns($guard);
-
-        $this->app->bind('auth', function () use ($manager) {
-            return $manager;
-        }, true);
-        $this->app->forgetInstance('auth');
-
-        Facade::clearResolvedInstance('auth');
-
-        $this->assertFalse($this->invokeMethod($this->builder, 'accessPermitted', ['access-cms']));
-    }
-
-    /** @test */
-    public function it_raises_error_exception_when_the_authenticated_admin_has_no_permission()
-    {
-        $this->expectException(\ErrorException::class);
-
-        $guard = \Mockery::mock(SessionGuard::class);
-        $guard->shouldReceive('user')
-            ->andReturns(new \App\Models\User());
-
-        $manager = \Mockery::mock(AuthManager::class, ['guard']);
-        $manager->shouldReceive('guard')
-            ->with(config('cms.guard'))
-            ->andReturns($guard);
-
-        $this->app->bind('auth', function () use ($manager) {
-            return $manager;
-        }, true);
-        $this->app->forgetInstance('auth');
-
-        Facade::clearResolvedInstance('auth');
-
-        $this->invokeMethod($this->builder, 'accessPermitted', ['access-cms']);
-    }
+//    /** @test */
+//    public function it_raises_error_exception_when_the_authenticated_admin_has_no_permission()
+//    {
+//        $this->expectException(\ErrorException::class);
+//
+//        $guard = \Mockery::mock(SessionGuard::class);
+//        $guard->shouldReceive('user')
+//            ->andReturns(new \App\Models\User());
+//
+//        $manager = \Mockery::mock(AuthManager::class, ['guard']);
+//        $manager->shouldReceive('guard')
+//            ->with(config('cms.guard'))
+//            ->andReturns($guard);
+//
+//        $this->app->bind('auth', function () use ($manager) {
+//            return $manager;
+//        }, true);
+//        $this->app->forgetInstance('auth');
+//
+//        Facade::clearResolvedInstance('auth');
+//
+//        $this->invokeMethod($this->builder, 'accessPermitted', ['access-cms']);
+//    }
 }

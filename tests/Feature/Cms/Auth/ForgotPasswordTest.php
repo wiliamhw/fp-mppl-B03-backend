@@ -53,8 +53,7 @@ class ForgotPasswordTest extends TestCase
     public function forgot_password_page_is_accessible()
     {
         $this->get($this->getAuthUrl('/password/reset'))
-            ->assertStatus(200)
-            ->assertSee('noindex, nofollow, noimageindex, noarchive, nosnippet');
+            ->assertStatus(200);
     }
 
     /** @test */
