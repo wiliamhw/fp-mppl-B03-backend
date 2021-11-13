@@ -114,11 +114,8 @@ class UsersController extends Controller
     public function logout(Request $request): JsonResponse
     {
         try {
-            $request->user()->currentAccessToken()->delete();
-            return $this->sendData([
-                'message' => 'Token Revoked',
-                'code'  => 200
-            ]);
+            $request->user()->tokens()->delete();
+            return $this->sendData()->add;
         } catch (\Exception $e) {
             return $this->renderApiException($e);
         }

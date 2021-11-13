@@ -37,10 +37,8 @@ final class UserBuilder extends Builder
         return [
             'users.id',
             'users.email',
-            'users.password',
             'users.name',
             'users.phone_number',
-            'users.remember_token',
             'users.created_at',
             'users.updated_at',
         ];
@@ -56,20 +54,10 @@ final class UserBuilder extends Builder
         return [
             AllowedFilter::exact('id'),
             'email',
-            'password',
             'name',
             'phone_number',
-            'remember_token',
             AllowedFilter::exact('created_at'),
             AllowedFilter::exact('updated_at'),
-            AllowedFilter::exact('users.id'),
-            'users.email',
-            'users.password',
-            'users.name',
-            'users.phone_number',
-            'users.remember_token',
-            AllowedFilter::exact('users.created_at'),
-            AllowedFilter::exact('users.updated_at'),
         ];
     }
 
@@ -98,10 +86,8 @@ final class UserBuilder extends Builder
     {
         return [
             'email',
-            'password',
             'name',
             'phone_number',
-            'remember_token',
         ];
     }
 
@@ -115,10 +101,8 @@ final class UserBuilder extends Builder
         return [
             'id',
             'email',
-            'password',
             'name',
             'phone_number',
-            'remember_token',
             'created_at',
             'updated_at',
         ];
