@@ -67,10 +67,7 @@ class UsersTest extends TestCase
         ];
         $response = $this->postJson($this->endpoint.'login', $data);
         $response->assertStatus(200)
-            ->assertJsonFragment([
-                'code'      => 200,
-                'status'    => 'OK',
-            ])->assertJsonStructure([
+            ->assertJsonStructure([
                 'data' => ['token']
             ]);
     }
@@ -144,10 +141,6 @@ class UsersTest extends TestCase
     public function logout_endpoint_works_as_expected()
     {
         $this->getJson($this->endpoint.'logout')
-            ->assertStatus(200)
-            ->assertJsonFragment([
-                'message' => 'Token Revoked',
-                'code'  => 200
-            ]);
+            ->assertStatus(200);
     }
 }
