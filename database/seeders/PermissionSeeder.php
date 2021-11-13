@@ -20,6 +20,7 @@ class PermissionSeeder extends Seeder
         $this->createResourcePermissionsFor('roles');
         $this->createResourcePermissionsFor('settings');
         $this->createResourcePermissionsFor('users');
+        $this->createResourcePermissionsFor('categories');
     }
 
     /**

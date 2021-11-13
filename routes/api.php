@@ -39,3 +39,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::apiResource('/settings', 'SettingsController')->only(['index', 'show']);
+Route::apiResource('/categories', 'CategoriesController')->only(['index']);

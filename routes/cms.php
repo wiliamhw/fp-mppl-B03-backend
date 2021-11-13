@@ -37,3 +37,12 @@ Route::get('/users', 'Users\UsersIndex')->name('users.index');
 Route::get('/users/create', 'Users\CreateUser')->name('users.create');
 Route::get('/users/{user}', 'Users\ShowUser')->name('users.show');
 Route::get('/users/{user}/edit', 'Users\EditUser')->name('users.edit');
+
+
+/**
+ * Begin route definition for `Categories` resources.
+ */
+Route::get('/categories', 'Categories\CategoriesIndex')->name('categories.index');
+Route::get('/categories/create', 'Categories\CreateCategory')->name('categories.create');
+Route::get('/categories/{category}', 'Categories\ShowCategory')->name('categories.show');
+Route::get('/categories/{category}/edit', 'Categories\EditCategory')->name('categories.edit');
