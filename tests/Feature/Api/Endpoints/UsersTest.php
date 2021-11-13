@@ -48,9 +48,6 @@ class UsersTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(['PermissionSeeder', 'RoleSeeder']);
-        $this->faker = new Generator();
-
         $this->user = User::factory()->create();
         $this->actingAs($this->user);
 
