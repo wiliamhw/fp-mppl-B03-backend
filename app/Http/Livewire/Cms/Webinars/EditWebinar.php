@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Cms\Webinars;
 
+use Carbon\Carbon;
+
 class EditWebinar extends WebinarForm
 {
     /**
@@ -11,6 +13,36 @@ class EditWebinar extends WebinarForm
      * @var string
      */
     protected string $operation = 'update';
+
+    public string $startAt;
+    public string $endAt;
+
+    /**
+     * Handle the `mount` lifecycle event.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \ErrorException
+     */
+    public function mount(): void
+    {
+        parent::mount();
+        $this->startAt = Carbon::parse($this->webinar->start_at)->format('Y-m-d\TH:i');
+        $this->endAt   = Carbon::parse($this->webinar->end_at)->format('Y-m-d\TH:i');
+    }
+
+    /**
+     * Save the webinar model.
+     *
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \ErrorException
+     */
+    public function save()
+    {
+        $this->webinar->start_at = $this->startAt;
+        $this->webinar->end_at = $this->endAt;
+        parent::save();
+    }
 
     /**
      * Render the LiveWire component.

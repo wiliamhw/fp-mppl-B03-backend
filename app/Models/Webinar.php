@@ -110,11 +110,24 @@ class Webinar extends Model
 
     /**
      * Generate type based on price.
-     *
      */
     public function generateType(): void
     {
         $this['type'] = ($this->price === 0) ? self::TYPE_FREE : self::TYPE_PAID;
+    }
+
+    /**
+     * Generate published_at date.
+     *
+     * @param string $isPublished
+     */
+    public function generatePublishedAt(string $isPublished): void
+    {
+        if ($isPublished === 'true' && $this['published_at'] === null) {
+            $this['published_at'] = now();
+        } else if ($isPublished === 'false' && $this['published_at'] !== null) {
+            $this['published_at'] = null;
+        }
     }
 
     /**

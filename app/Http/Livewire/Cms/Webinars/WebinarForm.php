@@ -7,6 +7,7 @@ use App\Models\Webinar;
 use Cms\Livewire\Concerns\ResolveCurrentAdmin;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 abstract class WebinarForm extends Component
@@ -62,7 +63,11 @@ abstract class WebinarForm extends Component
     {
         return [
             'webinar.category_id'       => 'required|integer|between:0,4294967295|exists:categories,id',
-            'webinar.title'             => 'required|string|min:2|max:255|unique:webinars,title',
+            'webinar.title'             => [
+                'required', 'string', 'min:2', 'max:255',
+                Rule::unique('webinars', 'title')
+                    ->ignore($this->webinar->id, 'id')
+            ],
             'webinar.description'       => 'required|string|min:2|max:16777215',
             'webinar.start_at'          => 'required|date',
             'webinar.end_at'            => 'required|date|after_or_equal:webinar.start_at',
@@ -171,6 +176,7 @@ abstract class WebinarForm extends Component
         $this->confirmAuthorization();
         $this->validate();
 
+        $this->webinar->generatePublishedAt($this->isPublished);
         $this->webinar->generateType();
         $this->webinar->save();
 
