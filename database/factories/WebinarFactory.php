@@ -24,6 +24,9 @@ class WebinarFactory extends Factory
      */
     public function definition()
     {
+        $price = $this->faker->boolean(25) ? 0 : $this->faker->numberBetween(1, 99999);
+        $type  = ($price === 0) ? Webinar::TYPE_FREE : Webinar::TYPE_PAID;
+
         return [
             'category_id' => Category::factory(),
             'title' => $this->faker->text(rand(10, 32)),
@@ -31,10 +34,10 @@ class WebinarFactory extends Factory
             'start_at' => Carbon::now()->subDays(rand(5, 60))->addHours(rand(1, 12))->addMinutes(rand(1, 30))->addSeconds(rand(1, 30)),
             'end_at' => $this->faker->randomElement([
                 Carbon::now()->addDays(rand(1, 60)),
-                Carbon::now()->subDays()
+                Carbon::now()
             ]),
-            'price' => $this->faker->numberBetween(0, 99999),
-            'type' => $this->faker->randomElement(Webinar::TYPE),
+            'price' => $price,
+            'type' => $type,
             'zoom_id' => $this->faker->text(rand(6, 11)),
             'max_participants' => $this->faker->numberBetween(0, 99999),
             'published_at' => $this->faker->boolean(90) ?

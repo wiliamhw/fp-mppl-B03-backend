@@ -39,8 +39,8 @@ class EditWebinar extends WebinarForm
      */
     public function save()
     {
-        $this->webinar->start_at = $this->startAt;
-        $this->webinar->end_at = $this->endAt;
+        $this->webinar['start_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $this->startAt);
+        $this->webinar['end_at'] = Carbon::createFromFormat('Y-m-d\TH:i', $this->endAt);
         parent::save();
     }
 

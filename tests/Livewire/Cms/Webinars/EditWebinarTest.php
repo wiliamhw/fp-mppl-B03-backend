@@ -56,7 +56,10 @@ class EditWebinarTest extends TestCase
     /** @test */
     public function it_can_update_the_existing_webinar_record()
     {
-        $data = $this->fakeRawData(Webinar::class);
+        $data = $this->fakeRawData(Webinar::class, [
+            'start_at'      => date('Y-m-d H:i:s'),
+            'end_at'        => date('Y-m-d H:i:s'),
+        ]);
 
         Livewire::test('cms.webinars.edit-webinar', ['webinar' => $this->webinar])
             ->set('webinar.category_id', $data['category_id'])
@@ -65,14 +68,14 @@ class EditWebinarTest extends TestCase
             ->set('webinar.start_at', $data['start_at'])
             ->set('webinar.end_at', $data['end_at'])
             ->set('webinar.price', $data['price'])
-            ->set('webinar.type', $data['type'])
             ->set('webinar.zoom_id', $data['zoom_id'])
             ->set('webinar.max_participants', $data['max_participants'])
-            ->set('webinar.published_at', $data['published_at'])
+            ->set('isPublished', 'true')
             ->call('save')
             ->assertHasNoErrors()
             ->assertRedirect('/cms/webinars');
 
+        unset($data['published_at'], $data['start_at'], $data['end_at']);
         $this->assertDatabaseHas('webinars', $data);
 
         self::assertEquals('success', session('alertType'));
@@ -82,7 +85,10 @@ class EditWebinarTest extends TestCase
     /** @test */
     public function it_can_cancel_updating_existing_webinar_and_go_back_to_index_page()
     {
-        $data = $this->fakeRawData(Webinar::class);
+        $data = $this->fakeRawData(Webinar::class, [
+            'start_at'      => date('Y-m-d H:i:s'),
+            'end_at'        => date('Y-m-d H:i:s'),
+        ]);
 
         Livewire::test('cms.webinars.edit-webinar', ['webinar' => $this->webinar])
             ->set('webinar.category_id', $data['category_id'])
@@ -91,14 +97,14 @@ class EditWebinarTest extends TestCase
             ->set('webinar.start_at', $data['start_at'])
             ->set('webinar.end_at', $data['end_at'])
             ->set('webinar.price', $data['price'])
-            ->set('webinar.type', $data['type'])
             ->set('webinar.zoom_id', $data['zoom_id'])
             ->set('webinar.max_participants', $data['max_participants'])
-            ->set('webinar.published_at', $data['published_at'])
+            ->set('isPublished', 'true')
             ->call('backToIndex')
             ->assertHasNoErrors()
             ->assertRedirect('/cms/webinars');
 
+        unset($data['published_at'], $data['start_at'], $data['end_at']);
         $this->assertDatabaseMissing('webinars', $data);
     }
 }
