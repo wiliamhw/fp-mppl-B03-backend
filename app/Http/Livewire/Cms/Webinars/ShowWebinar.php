@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Cms\Webinars;
 
+use App\Models\Webinar;
+
 class ShowWebinar extends WebinarForm
 {
     /**
@@ -11,6 +13,22 @@ class ShowWebinar extends WebinarForm
      * @var string
      */
     protected string $operation = 'view';
+
+    public string $webinarType;
+    public string $priceInRp;
+
+    /**
+     * Handle the `mount` lifecycle event.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \ErrorException
+     */
+    public function mount(): void
+    {
+        parent::mount();
+        $this->priceInRp = formatRupiah($this->webinar->price);
+        $this->webinarType = ($this->webinar->type === Webinar::TYPE_FREE) ? 'Free' : 'Paid';
+    }
 
     /**
      * Render the LiveWire component.
