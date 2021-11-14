@@ -105,4 +105,16 @@ final class CategoryBuilder extends Builder
     {
         return 'name';
     }
+
+    /**
+     * Get default query builder.
+     *
+     * @return QueryBuilder
+     */
+    public function query(): QueryBuilder
+    {
+        // @phpstan-ignore-next-line
+        return parent::query()
+            ->has('webinars');
+    }
 }
