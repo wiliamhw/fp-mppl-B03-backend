@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\SeoMeta;
+use Carbon\Carbon;
 use Cms\Models\Concerns\HasSeoMeta;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
@@ -165,5 +166,42 @@ abstract class TestCase extends BaseTestCase
         $method->setAccessible(true);
 
         return $method->invokeArgs($object, $parameters);
+    }
+
+    /**
+     * Serialize date to string.
+     *
+     * @param Carbon $date
+     *
+     * @return string
+     */
+    protected function serializeDate(Carbon $date): string
+    {
+        return $date->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * Cast attribute to appropriate type.
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
+    protected function getCastedAttribute(string $key, bool $inJson = false)
+    {
+        $data = $this->model->getAttribute($key);
+        if (is_numeric($data)) {
+            $data = strval($data);
+        }
+        if (in_array($key, $this->model->getDates())) {
+            $data = $this->serializeDate($data);
+        }
+        if ($inJson) {
+            if (is_bool($data)) {
+                $data = (int) $data;
+            }
+            $data = json_encode($data);
+        }
+        return $data;
     }
 }

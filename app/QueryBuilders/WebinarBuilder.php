@@ -2,29 +2,29 @@
 
 namespace App\QueryBuilders;
 
-use App\Http\Requests\CategoryGetRequest;
-use App\Models\Category;
+use App\Http\Requests\WebinarGetRequest;
+use App\Models\Webinar;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-final class CategoryBuilder extends Builder
+final class WebinarBuilder extends Builder
 {
     /**
      * Current HTTP Request object.
      *
-     * @var CategoryGetRequest
+     * @var WebinarGetRequest
      */
     protected $request;
 
     /**
-     * CategoryBuilder constructor.
+     * WebinarBuilder constructor.
      *
-     * @param CategoryGetRequest $request
+     * @param WebinarGetRequest $request
      */
-    public function __construct(CategoryGetRequest $request)
+    public function __construct(WebinarGetRequest $request)
     {
         $this->request = $request;
-        $this->builder = QueryBuilder::for(Category::class, $request);
+        $this->builder = QueryBuilder::for(Webinar::class, $request);
     }
 
     /**
@@ -35,10 +35,22 @@ final class CategoryBuilder extends Builder
     protected function getAllowedFields(): array
     {
         return [
-            'categories.id',
-            'categories.name',
-            'categories.created_at',
-            'categories.updated_at',
+            'webinars.id',
+            'webinars.category_id',
+            'webinars.title',
+            'webinars.start_at',
+            'webinars.end_at',
+            'webinars.price',
+            'webinars.type',
+            'webinars.zoom_id',
+            'webinars.max_participants',
+            'webinars.published_at',
+            'webinars.created_at',
+            'webinars.updated_at',
+            'category.id',
+            'category.name',
+            'category.created_at',
+            'category.updated_at',
         ];
     }
 
@@ -51,9 +63,19 @@ final class CategoryBuilder extends Builder
     {
         return [
             AllowedFilter::exact('id'),
-            'name',
+            AllowedFilter::exact('category_id'),
+            'title',
+            AllowedFilter::exact('start_at'),
+            AllowedFilter::exact('end_at'),
+            AllowedFilter::exact('price'),
+            'type',
+            'zoom_id',
+            AllowedFilter::exact('max_participants'),
+            AllowedFilter::exact('published_at'),
             AllowedFilter::exact('created_at'),
             AllowedFilter::exact('updated_at'),
+
+            AllowedFilter::scope('expired'),
         ];
     }
 
@@ -65,7 +87,9 @@ final class CategoryBuilder extends Builder
     protected function getAllowedIncludes(): array
     {
         return [
-            'webinars',
+            'category',
+            'userWebinars',
+            'users',
         ];
     }
 
@@ -77,7 +101,10 @@ final class CategoryBuilder extends Builder
     protected function getAllowedSearch(): array
     {
         return [
-            'name',
+            'title',
+            'zoom_id',
+            'type',
+            'category.name',
         ];
     }
 
@@ -90,7 +117,15 @@ final class CategoryBuilder extends Builder
     {
         return [
             'id',
-            'name',
+            'category_id',
+            'title',
+            'start_at',
+            'end_at',
+            'price',
+            'type',
+            'zoom_id',
+            'max_participants',
+            'published_at',
             'created_at',
             'updated_at',
         ];
@@ -103,7 +138,7 @@ final class CategoryBuilder extends Builder
      */
     protected function getDefaultSort(): string
     {
-        return 'name';
+        return 'end_at';
     }
 
     /**
@@ -115,6 +150,7 @@ final class CategoryBuilder extends Builder
     {
         // @phpstan-ignore-next-line
         return parent::query()
-            ->has('webinars');
+            ->published()
+            ->allowedAppends(['status']);
     }
 }

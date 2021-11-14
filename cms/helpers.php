@@ -24,3 +24,16 @@ if (!function_exists('cms_admin')) {
         return $admin;
     }
 }
+
+if (!function_exists('formatRupiah')) {
+    /**
+     * Convert int to rupiah string
+     *
+     * @param int $value
+     * @return string
+     */
+    function formatRupiah(int $value): string
+    {
+        return 'Rp ' . number_format($value , 0, ',', '.');
+    }
+}
