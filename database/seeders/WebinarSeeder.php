@@ -15,7 +15,7 @@ class WebinarSeeder extends Seeder
      */
     public function run()
     {
-        $categoryIds = Category::pluck('id')->take(5)->toArray();
+        $categoryIds = Category::pluck('id')->take(8)->toArray();
 
         foreach ($categoryIds as $categoryId) {
             Webinar::factory(2)->create([

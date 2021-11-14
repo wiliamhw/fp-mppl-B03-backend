@@ -69,7 +69,6 @@ final class WebinarBuilder extends Builder
             AllowedFilter::exact('end_at'),
             AllowedFilter::exact('price'),
             'type',
-            'zoom_id',
             AllowedFilter::exact('max_participants'),
             AllowedFilter::exact('published_at'),
             AllowedFilter::exact('created_at'),
