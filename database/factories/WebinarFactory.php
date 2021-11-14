@@ -34,12 +34,11 @@ class WebinarFactory extends Factory
             'type' => $this->faker->randomElement(Webinar::TYPE),
             'zoom_id' => $this->faker->text(rand(6, 11)),
             'max_participants' => $this->faker->numberBetween(0, 99999),
-            'published_at' => $this->faker->randomElement([
+            'published_at' => $this->faker->boolean(90) ?
                 Carbon::now()
                     ->subDays(rand(1, 60))->addHours(rand(1, 12))
-                    ->addMinutes(rand(1, 30))->addSeconds(rand(1, 30)),
-                null
-            ]),
+                    ->addMinutes(rand(1, 30))->addSeconds(rand(1, 30))
+                : null
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Feature\Api\Endpoints;
 
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Webinar;
 use Faker\Generator;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -54,9 +55,22 @@ class CategoriesTest extends TestCase
     /** @test */
     public function index_endpoint_works_as_expected()
     {
+        Webinar::factory()->create([
+            'category_id' => 1
+        ]);
         $this->getJson($this->endpoint)
             ->assertStatus(200)
             ->assertJsonFragment([
+                'name' => $this->model->getAttribute('name'),
+            ]);
+    }
+
+    /** @test */
+    public function index_endpoint_wont_show_categories_that_doesnt_have_webinar()
+    {
+        $this->getJson($this->endpoint)
+            ->assertStatus(200)
+            ->assertJsonMissing([
                 'name' => $this->model->getAttribute('name'),
             ]);
     }

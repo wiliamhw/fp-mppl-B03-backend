@@ -24,7 +24,7 @@ class WebinarsTest extends TestCase
      *
      * @var string
      */
-    protected $endpoint = '/api/webinars/';
+    protected $endpoint = '/api/webinars?append=status/';
 
     /**
      * Faker generator instance.
@@ -50,11 +50,25 @@ class WebinarsTest extends TestCase
         parent::setUp();
 
         $this->faker = new Generator();
-        $this->user = User::factory()->create()->assignRole('super-administrator');
+        $this->model = Webinar::factory()->create([
+            'published_at' => now()
+        ]);
+    }
 
-        $this->actingAs($this->user, config('api.cms_guard'));
-
-        $this->model = Webinar::factory()->create();
+    private function getWebinarContents(): array
+    {
+        return [
+            'category_id'       => $this->getCastedAttribute('category_id'),
+            'title'             => $this->getCastedAttribute('title'),
+            'description'       => $this->getCastedAttribute('description'),
+            'start_at'          => $this->getCastedAttribute('start_at'),
+            'end_at'            => $this->getCastedAttribute('end_at'),
+            'price'             => $this->getCastedAttribute('price'),
+            'type'              => $this->getCastedAttribute('type'),
+            'zoom_id'           => $this->getCastedAttribute('zoom_id'),
+            'max_participants'  => $this->getCastedAttribute('max_participants'),
+            'status'            => $this->getCastedAttribute('status'),
+        ];
     }
 
     /** @test */
@@ -62,17 +76,15 @@ class WebinarsTest extends TestCase
     {
         $this->getJson($this->endpoint)
             ->assertStatus(200)
-            ->assertJsonFragment([
-                'category_id' => $this->model->getAttribute('category_id'),
-                'title' => $this->model->getAttribute('title'),
-                'description' => $this->model->getAttribute('description'),
-                'start_at' => $this->model->getAttribute('start_at'),
-                'end_at' => $this->model->getAttribute('end_at'),
-                'price' => $this->model->getAttribute('price'),
-                'zoom_id' => $this->model->getAttribute('zoom_id'),
-                'max_participants' => $this->model->getAttribute('max_participants'),
-                'partner_name' => $this->model->getAttribute('partner_name'),
-                'published_at' => $this->model->getAttribute('published_at'),
-            ]);
+            ->assertJsonFragment($this->getWebinarContents());
+    }
+
+    /** @test */
+    public function index_endpoint_wont_show_unpublished_webinars()
+    {
+        $this->model->update(['published_at' => null]);
+        $this->getJson($this->endpoint)
+            ->assertStatus(200)
+            ->assertJsonMissing($this->getWebinarContents());
     }
 }
