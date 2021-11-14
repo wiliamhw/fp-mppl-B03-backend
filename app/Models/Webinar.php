@@ -90,6 +90,16 @@ class Webinar extends Model
 //        return $this->belongsToMany(User::class, 'user_webinar');
 //    }
 
+    /**
+     * Get webinar status based on start_at and end_at
+     *
+     * @return string
+     */
+    public function getStatusAttribute(): string
+    {
+        return ($this->end_at <= now()) ? 'Sudah dimulai' : 'Belum dimulai';
+    }
+
     public function scopeExpired(Builder $query, bool $isExpired): Builder
     {
         return $query->where('end_at', ($isExpired) ? '<=' : '>', now());

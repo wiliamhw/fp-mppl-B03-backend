@@ -154,6 +154,7 @@ final class WebinarBuilder extends Builder
     {
         // @phpstan-ignore-next-line
         return parent::query()
-            ->published();
+            ->published()
+            ->allowedAppends(['status']);
     }
 }
