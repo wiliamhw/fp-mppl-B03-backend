@@ -42,9 +42,9 @@ final class WebinarBuilder extends Builder
             'webinars.start_at',
             'webinars.end_at',
             'webinars.price',
+            'webinars.type',
             'webinars.zoom_id',
             'webinars.max_participants',
-            'webinars.partner_name',
             'webinars.published_at',
             'webinars.created_at',
             'webinars.updated_at',
@@ -70,12 +70,14 @@ final class WebinarBuilder extends Builder
             AllowedFilter::exact('start_at'),
             AllowedFilter::exact('end_at'),
             AllowedFilter::exact('price'),
+            'type',
             'zoom_id',
             AllowedFilter::exact('max_participants'),
-            'partner_name',
             AllowedFilter::exact('published_at'),
             AllowedFilter::exact('created_at'),
             AllowedFilter::exact('updated_at'),
+
+            AllowedFilter::scope('expired'),
         ];
     }
 
@@ -104,7 +106,7 @@ final class WebinarBuilder extends Builder
             'title',
             'description',
             'zoom_id',
-            'partner_name',
+            'type',
             'category.name',
         ];
     }
@@ -124,9 +126,9 @@ final class WebinarBuilder extends Builder
             'start_at',
             'end_at',
             'price',
+            'type',
             'zoom_id',
             'max_participants',
-            'partner_name',
             'published_at',
             'created_at',
             'updated_at',
@@ -141,5 +143,17 @@ final class WebinarBuilder extends Builder
     protected function getDefaultSort(): string
     {
         return 'end_at';
+    }
+
+    /**
+     * Get default query builder.
+     *
+     * @return QueryBuilder
+     */
+    public function query(): QueryBuilder
+    {
+        // @phpstan-ignore-next-line
+        return parent::query()
+            ->published();
     }
 }

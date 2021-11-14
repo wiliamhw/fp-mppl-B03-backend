@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Webinar;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class WebinarGetRequest extends FormRequest
 {
@@ -32,6 +34,7 @@ class WebinarGetRequest extends FormRequest
             'filter.start_at' => 'date',
             'filter.end_at' => 'date',
             'filter.price' => 'integer|between:0,4294967295',
+            'filter.type' => ['string', Rule::in(Webinar::TYPE)],
             'filter.zoom_id' => 'string|min:2|max:11',
             'filter.max_participants' => 'integer|between:0,4294967295',
             'filter.partner_name' => 'string|min:2|max:255',
@@ -41,6 +44,8 @@ class WebinarGetRequest extends FormRequest
             'page.number' => 'integer|min:1',
             'page.size' => 'integer|between:1,100',
             'search' => 'nullable|string|min:3|max:60',
+
+            'filter.expired' => 'string|in:true,false,1,0'
         ];
     }
 }

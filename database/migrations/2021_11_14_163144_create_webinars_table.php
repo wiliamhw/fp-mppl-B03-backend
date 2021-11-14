@@ -21,9 +21,9 @@ class CreateWebinarsTable extends Migration
             $table->dateTime('start_at');
             $table->dateTime('end_at');
             $table->integer('price')->unsigned();
+            $table->string('type', 32);
             $table->string('zoom_id', 11);
             $table->integer('max_participants')->unsigned();
-            $table->string('partner_name', 255)->nullable();
             $table->dateTime('published_at')->nullable();
             $table->dateTime('created_at')->nullable();
             $table->dateTime('updated_at')->nullable();

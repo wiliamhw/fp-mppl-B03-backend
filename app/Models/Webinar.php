@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Models\Category;
+use App\Models\Concerns\OldDateSerializer;
 use App\Models\User;
 use App\Models\UserWebinar;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +16,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Webinar extends Model
 {
     use HasFactory;
+    use OldDateSerializer;
+
+    const TYPE_PAID = 'Berbayar';
+    const TYPE_FREE = 'Gratis';
+
+    const TYPE = [
+        self::TYPE_PAID,
+        self::TYPE_FREE
+    ];
 
     /**
      * The attributes that should be mutated to dates.
@@ -40,9 +51,9 @@ class Webinar extends Model
         'start_at',
         'end_at',
         'price',
+        'type',
         'zoom_id',
         'max_participants',
-        'partner_name',
         'published_at',
     ];
 
@@ -78,4 +89,14 @@ class Webinar extends Model
 //    {
 //        return $this->belongsToMany(User::class, 'user_webinar');
 //    }
+
+    public function scopeExpired(Builder $query, bool $isExpired): Builder
+    {
+        return $query->where('end_at', ($isExpired) ? '<=' : '>', now());
+    }
+
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('published_at', '!=', null);
+    }
 }

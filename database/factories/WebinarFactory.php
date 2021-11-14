@@ -31,9 +31,9 @@ class WebinarFactory extends Factory
             'start_at' => Carbon::now()->subDays(rand(1, 60))->addHours(rand(1, 12))->addMinutes(rand(1, 30))->addSeconds(rand(1, 30)),
             'end_at' => Carbon::now()->addDays(rand(1, 60))->addHours(rand(1, 12))->addMinutes(rand(1, 30))->addSeconds(rand(1, 30)),
             'price' => $this->faker->numberBetween(0, 99999),
+            'type' => $this->faker->randomElement(Webinar::TYPE),
             'zoom_id' => $this->faker->text(rand(6, 11)),
             'max_participants' => $this->faker->numberBetween(0, 99999),
-            'partner_name' => $this->faker->text(rand(10, 25)),
             'published_at' => $this->faker->randomElement([
                 Carbon::now()
                     ->subDays(rand(1, 60))->addHours(rand(1, 12))
