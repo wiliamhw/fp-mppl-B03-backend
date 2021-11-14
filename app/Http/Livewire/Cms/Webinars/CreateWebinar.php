@@ -35,4 +35,23 @@ class CreateWebinar extends WebinarForm
             ->extends('cms::_layouts.app')
             ->section('content');
     }
+
+    /**
+     * Save the promo model.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \ErrorException
+     *
+     * @return mixed
+     */
+    public function save()
+    {
+        if (!isset($this->webinar['category_id'])) {
+            $this->webinar['category_id'] = array_key_first($this->categoryOptions);
+        }
+        if (!isset($this->webinar['price']) || $this->webinar['price'] === "") {
+            $this->webinar['price'] = 0;
+        }
+        parent::save();
+    }
 }

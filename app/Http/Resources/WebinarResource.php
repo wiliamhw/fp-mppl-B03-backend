@@ -21,7 +21,8 @@ class WebinarResource extends JsonResource
         return $this->stripElementsFromResource((array) parent::toArray($request), [
             'published_at',
             'created_at',
-            'updated_at'
+            'updated_at',
+            'zoom_id',
         ]);
     }
 }

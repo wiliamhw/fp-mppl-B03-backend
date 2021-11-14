@@ -21,7 +21,9 @@ class WebinarsIndex extends DatatableComponent
             DatatableColumn::make('category.id')->setInvisible(true),
             DatatableColumn::make('category.name')->setInvisible(true),
             DatatableColumn::make('title'),
-            DatatableColumn::make('price')->setInvisible(true),
+            DatatableColumn::make('price')->setInvisible(true)->renderWith(function ($q) {
+                return formatRupiah($q->price);
+            }),
             DatatableColumn::make('start_at'),
             DatatableColumn::make('end_at'),
             DatatableColumn::make('end_at')->setInvisible(true)

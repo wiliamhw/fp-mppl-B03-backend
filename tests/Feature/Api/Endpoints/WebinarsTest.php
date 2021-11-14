@@ -24,7 +24,7 @@ class WebinarsTest extends TestCase
      *
      * @var string
      */
-    protected $endpoint = '/api/webinars?append=status/';
+    protected $endpoint = '/api/webinars/';
 
     /**
      * Faker generator instance.
@@ -65,7 +65,6 @@ class WebinarsTest extends TestCase
             'end_at'            => $this->getCastedAttribute('end_at'),
             'price'             => $this->getCastedAttribute('price'),
             'type'              => $this->getCastedAttribute('type'),
-            'zoom_id'           => $this->getCastedAttribute('zoom_id'),
             'max_participants'  => $this->getCastedAttribute('max_participants'),
             'status'            => $this->getCastedAttribute('status'),
         ];
@@ -74,7 +73,7 @@ class WebinarsTest extends TestCase
     /** @test */
     public function index_endpoint_works_as_expected()
     {
-        $this->getJson($this->endpoint)
+        $this->getJson($this->endpoint.'?append=status')
             ->assertStatus(200)
             ->assertJsonFragment($this->getWebinarContents());
     }
@@ -83,8 +82,16 @@ class WebinarsTest extends TestCase
     public function index_endpoint_wont_show_unpublished_webinars()
     {
         $this->model->update(['published_at' => null]);
-        $this->getJson($this->endpoint)
+        $this->getJson($this->endpoint.'?append=status')
             ->assertStatus(200)
             ->assertJsonMissing($this->getWebinarContents());
+    }
+
+    /** @test */
+    public function show_endpoint_works_as_expected()
+    {
+        $this->getJson($this->endpoint.$this->model->getKey().'?append=status')
+            ->assertStatus(200)
+            ->assertJsonFragment($this->getWebinarContents());
     }
 }

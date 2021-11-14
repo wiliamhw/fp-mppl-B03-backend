@@ -99,7 +99,26 @@ class Webinar extends Model
 //    }
 
     /**
-     * Get webinar status based on start_at and end_at
+     * Check whether current webinar is published or not.
+     *
+     * @return bool
+     */
+    public function isPublished(): bool
+    {
+        return $this->published_at !== null;
+    }
+
+    /**
+     * Generate type based on price.
+     *
+     */
+    public function generateType(): void
+    {
+        $this['type'] = ($this->price === 0) ? self::TYPE_FREE : self::TYPE_PAID;
+    }
+
+    /**
+     * Get webinar status based on start_at and end_at.
      *
      * @return string
      */

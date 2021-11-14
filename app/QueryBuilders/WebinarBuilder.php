@@ -38,7 +38,6 @@ final class WebinarBuilder extends Builder
             'webinars.id',
             'webinars.category_id',
             'webinars.title',
-            'webinars.description',
             'webinars.start_at',
             'webinars.end_at',
             'webinars.price',
@@ -66,7 +65,6 @@ final class WebinarBuilder extends Builder
             AllowedFilter::exact('id'),
             AllowedFilter::exact('category_id'),
             'title',
-            'description',
             AllowedFilter::exact('start_at'),
             AllowedFilter::exact('end_at'),
             AllowedFilter::exact('price'),
@@ -104,7 +102,6 @@ final class WebinarBuilder extends Builder
     {
         return [
             'title',
-            'description',
             'zoom_id',
             'type',
             'category.name',
@@ -122,7 +119,6 @@ final class WebinarBuilder extends Builder
             'id',
             'category_id',
             'title',
-            'description',
             'start_at',
             'end_at',
             'price',

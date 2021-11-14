@@ -21,16 +21,31 @@
                     <form class="form" wire:submit.prevent="save">
                         {{ CmsForm::setErrorBag($errors) }}
 
-                        {!! CmsForm::number('webinar.category_id') !!}
+                        {!! CmsForm::select('webinar.category_id', $categoryOptions)->setTitle('Category') !!}
                         {!! CmsForm::text('webinar.title') !!}
-                        {!! CmsForm::text('webinar.description') !!}
-                        {!! CmsForm::datetime('webinar.start_at') !!}
-                        {!! CmsForm::datetime('webinar.end_at') !!}
-                        {!! CmsForm::number('webinar.price') !!}
-                        {!! CmsForm::text('webinar.type') !!}
-                        {!! CmsForm::text('webinar.zoom_id') !!}
+                        <div class="form-group">
+                            <x-input.tinymce labelName="Description" wire:model.defer="webinar.description" />
+                        </div>
+                        <div class="form-group">
+                            <label for="webinar.start_at">Start At</label>
+                            <input class="form-control" required="" wire:model.defer="webinar.start_at"
+                                   name="webinar.start_at" type="datetime-local" id="webinar.start_at">
+                            @error('webinar.start_at')
+                            <p class="text-danger"> {{ $message }} </p>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label for="webinar.end_at">End At</label>
+                            <input class="form-control" required="" wire:model.defer="webinar.end_at"
+                                   name="webinar.end_at" type="datetime-local" id="webinar.end_at">
+                            @error('webinar.end_at')
+                            <p class="text-danger"> {{ $message }} </p>
+                            @enderror
+                        </div>
+                        {!! CmsForm::number('webinar.price', ['required' => false])->setTitle('Price (optional)')!!}
+                        {!! CmsForm::text('webinar.zoom_id', ['required' => false])->setTitle('Zoom Id (optional)') !!}
                         {!! CmsForm::number('webinar.max_participants') !!}
-                        {!! CmsForm::datetime('webinar.published_at') !!}
+                        {!! CmsForm::select('isPublished', $isPublishedOptions)->setTitle('Is Published') !!}
 
                         <div class="form-group text-center">
                             <button type="submit" class="btn btn-primary">Save Webinar</button>

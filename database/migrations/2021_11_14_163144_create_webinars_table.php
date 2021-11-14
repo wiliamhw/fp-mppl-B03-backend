@@ -17,12 +17,12 @@ class CreateWebinarsTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('category_id')->unsigned();
             $table->string('title', 255);
-            $table->string('description', 511);
+            $table->mediumText('description');
             $table->dateTime('start_at');
             $table->dateTime('end_at');
             $table->integer('price')->unsigned();
             $table->string('type', 32);
-            $table->string('zoom_id', 11);
+            $table->string('zoom_id', 11)->nullable();
             $table->integer('max_participants')->unsigned();
             $table->dateTime('published_at')->nullable();
             $table->dateTime('created_at')->nullable();

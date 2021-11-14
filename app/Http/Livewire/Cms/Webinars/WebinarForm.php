@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Cms\Webinars;
 
+use App\Models\Category;
 use App\Models\Webinar;
 use Cms\Livewire\Concerns\ResolveCurrentAdmin;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -21,6 +22,30 @@ abstract class WebinarForm extends Component
     public Webinar $webinar;
 
     /**
+     * Store is published value.
+     *
+     * @var string
+     */
+    public string $isPublished;
+
+    /**
+     * Defines the options.
+     *
+     * @var string[]
+     */
+    public array $categoryOptions;
+
+    /**
+     * Defines the options of is published value.
+     *
+     * @var string[]
+     */
+    public array $isPublishedOptions = [
+        'true'  => 'True',
+        'false' => 'False',
+    ];
+
+    /**
      * Define the current operation of the livewire component.
      * The valid options for operation values are: create, view, update.
      *
@@ -29,22 +54,26 @@ abstract class WebinarForm extends Component
     protected string $operation;
 
     /**
-     * The validation rules for webinar model.
+     * The validation rules for promo model.
      *
-     * @var string[]
+     * @return array
      */
-    protected array $rules = [
-        'webinar.category_id' => 'required|integer|between:0,4294967295',
-        'webinar.title' => 'required|string|min:2|max:255',
-        'webinar.description' => 'required|string|min:2|max:511',
-        'webinar.start_at' => 'required|date',
-        'webinar.end_at' => 'required|date',
-        'webinar.price' => 'required|integer|between:0,4294967295',
-        'webinar.type' => 'required|string|min:2|max:32',
-        'webinar.zoom_id' => 'required|string|min:2|max:11',
-        'webinar.max_participants' => 'required|integer|between:0,4294967295',
-        'webinar.published_at' => 'required|date',
-    ];
+    public function rules(): array
+    {
+        return [
+            'webinar.category_id'       => 'required|integer|between:0,4294967295|exists:categories,id',
+            'webinar.title'             => 'required|string|min:2|max:255|unique:webinars,title',
+            'webinar.description'       => 'required|string|min:2|max:16777215',
+            'webinar.start_at'          => 'required|date',
+            'webinar.end_at'            => 'required|date|after_or_equal:webinar.start_at',
+            'webinar.max_participants'  => 'required|integer|between:0,4294967295',
+            'isPublished'               => 'required|string|in:true,false',
+
+            'webinar.price'             => 'nullable|integer|between:0,4294967295',
+            'webinar.zoom_id'           => 'nullable|string|min:2|max:11',
+        ];
+    }
+
 
     /**
      * Redirect and go back to index page.
@@ -121,6 +150,9 @@ abstract class WebinarForm extends Component
     public function mount(): void
     {
         $this->confirmAuthorization();
+
+        $this->categoryOptions = Category::pluck('name', 'id')->toArray();
+        $this->isPublished = $this->webinar->isPublished() ? 'true' : 'false';
     }
 
     /**
@@ -139,6 +171,7 @@ abstract class WebinarForm extends Component
         $this->confirmAuthorization();
         $this->validate();
 
+        $this->webinar->generateType();
         $this->webinar->save();
 
         session()->flash('alertType', 'success');
