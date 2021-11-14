@@ -54,6 +54,12 @@ return [
                     'icon'       => 'menu-icon fa fa-list-alt',
                     'permission' => 'cms.categories.view',
                 ],
+                [
+                    'title'      => 'Webinars',
+                    'url'        => '/cms/webinars',
+                    'icon'       => 'menu-icon fa fa-desktop',
+                    'permission' => 'cms.webinars.view',
+                ],
             ],
         ],
     ],

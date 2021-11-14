@@ -46,3 +46,12 @@ Route::get('/categories', 'Categories\CategoriesIndex')->name('categories.index'
 Route::get('/categories/create', 'Categories\CreateCategory')->name('categories.create');
 Route::get('/categories/{category}', 'Categories\ShowCategory')->name('categories.show');
 Route::get('/categories/{category}/edit', 'Categories\EditCategory')->name('categories.edit');
+
+
+/**
+ * Begin route definition for `Webinars` resources.
+ */
+Route::get('/webinars', 'Webinars\WebinarsIndex')->name('webinars.index');
+Route::get('/webinars/create', 'Webinars\CreateWebinar')->name('webinars.create');
+Route::get('/webinars/{webinar}', 'Webinars\ShowWebinar')->name('webinars.show');
+Route::get('/webinars/{webinar}/edit', 'Webinars\EditWebinar')->name('webinars.edit');

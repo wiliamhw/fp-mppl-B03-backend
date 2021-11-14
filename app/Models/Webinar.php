@@ -26,6 +26,14 @@ class Webinar extends Model
         self::TYPE_FREE
     ];
 
+    const STATUS_HAS_START      = 'Sudah dimulai';
+    const STATUS_HASNT_START    = 'Belum dimulai';
+
+    const STATUS = [
+        self::STATUS_HAS_START,
+        self::STATUS_HASNT_START
+    ];
+
     /**
      * The attributes that should be mutated to dates.
      *
@@ -97,7 +105,7 @@ class Webinar extends Model
      */
     public function getStatusAttribute(): string
     {
-        return ($this->end_at <= now()) ? 'Sudah dimulai' : 'Belum dimulai';
+        return ($this->end_at <= now()) ? self::STATUS_HAS_START : self::STATUS_HASNT_START;
     }
 
     public function scopeExpired(Builder $query, bool $isExpired): Builder
