@@ -30,14 +30,14 @@ class Category extends Model
         'name',
     ];
 
-//    /**
-//     * Model relationship definition.
-//     * Category has many Webinars
-//     *
-//     * @return HasMany
-//     */
-//    public function webinars(): HasMany
-//    {
-//        return $this->hasMany(Webinar::class, 'category_id');
-//    }
+    /**
+     * Model relationship definition.
+     * Category has many Webinars
+     *
+     * @return HasMany
+     */
+    public function webinars(): HasMany
+    {
+        return $this->hasMany(Webinar::class, 'category_id');
+    }
 }
