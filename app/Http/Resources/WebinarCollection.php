@@ -22,6 +22,7 @@ class WebinarCollection extends ResourceCollection
             'zoom_id',
             'description',
             'max_participants',
+            'media',
         ]);
     }
 }

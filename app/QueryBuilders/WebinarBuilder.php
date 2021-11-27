@@ -3,12 +3,15 @@
 namespace App\QueryBuilders;
 
 use App\Http\Requests\WebinarGetRequest;
+use App\Models\Concerns\MediaAllowedAppends;
 use App\Models\Webinar;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class WebinarBuilder extends Builder
 {
+    use MediaAllowedAppends;
+
     /**
      * Current HTTP Request object.
      *
@@ -150,6 +153,6 @@ final class WebinarBuilder extends Builder
         // @phpstan-ignore-next-line
         return parent::query()
             ->published()
-            ->allowedAppends(['status']);
+            ->allowedAppends(array_merge($this->getMediaAllowedAppends(), ['status']));
     }
 }

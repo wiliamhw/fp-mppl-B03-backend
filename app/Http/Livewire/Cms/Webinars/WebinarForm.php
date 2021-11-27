@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Cms\Webinars;
 
+use App\Http\Livewire\Concerns\HasMedia;
 use App\Models\Category;
 use App\Models\Webinar;
 use Cms\Livewire\Concerns\ResolveCurrentAdmin;
@@ -9,11 +10,14 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 abstract class WebinarForm extends Component
 {
     use AuthorizesRequests;
     use ResolveCurrentAdmin;
+    use WithFileUploads;
+    use HasMedia;
 
     /**
      * The related webinar instance.
@@ -55,6 +59,20 @@ abstract class WebinarForm extends Component
     protected string $operation;
 
     /**
+     * Store image thumbnail file.
+     *
+     * @var mixed
+     */
+    public $webinarThumbnail;
+
+    /**
+     * Store image thumbnail url.
+     *
+     * @var string
+     */
+    public string|null $webinarThumbnailUrl;
+
+    /**
      * The validation rules for promo model.
      *
      * @return array
@@ -72,10 +90,11 @@ abstract class WebinarForm extends Component
             'webinar.start_at'          => 'required|date',
             'webinar.end_at'            => 'required|date|after_or_equal:webinar.start_at',
             'webinar.max_participants'  => 'required|integer|between:0,4294967295',
-            'isPublished'               => 'required|string|in:true,false',
-
             'webinar.price'             => 'nullable|integer|between:0,4294967295',
             'webinar.zoom_id'           => 'nullable|string|min:2|max:11',
+
+            'isPublished'               => 'required|string|in:true,false',
+            'webinarThumbnail'          => 'required|image',
         ];
     }
 
@@ -158,6 +177,9 @@ abstract class WebinarForm extends Component
 
         $this->categoryOptions = Category::pluck('name', 'id')->toArray();
         $this->isPublished = $this->webinar->isPublished() ? 'true' : 'false';
+
+        $this->webinarThumbnail = $this->webinar->getFirstMedia(Webinar::IMAGE_COLLECTION) ?? null;
+        $this->webinarThumbnailUrl = $this->webinarThumbnail?->getUrl('large');
     }
 
     /**
@@ -178,6 +200,12 @@ abstract class WebinarForm extends Component
 
         $this->webinar->generatePublishedAt($this->isPublished);
         $this->webinar->generateType();
+
+        $this->webinar->storeMedia(
+            $this->webinarThumbnail, Webinar::IMAGE_COLLECTION, $this->webinarThumbnailUrl ?? null
+        );
+        $this->clearMedia($this->webinarThumbnail);
+
         $this->webinar->save();
 
         session()->flash('alertType', 'success');

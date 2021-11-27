@@ -21,6 +21,8 @@
                     <form class="form">
                         {{ CmsForm::setErrorBag($errors) }}
 
+                        <x-image_preview title="Current Webinar Thumbnail" :imageUrl="$webinarThumbnailUrl"/>
+
                         {!! CmsForm::select('webinar.category_id', $categoryOptions, ['disabled'])->setTitle('Category') !!}
                         {!! CmsForm::text('webinar.title', ['disabled' => 'disabled']) !!}
                         {!! CmsForm::textarea('webinar.description', ['disabled' => 'disabled']) !!}
