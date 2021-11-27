@@ -11,7 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+mix.scripts('public/cms-assets/plugins/global/plugins.bundle.js', 'public/cms-assets/plugins/global/plugins.bundle.js');
+mix.postCss('public/cms-assets/css/style.bundle.css', 'public/cms-assets/css/style.bundle.css');
+
+mix.minify(['public/cms-assets/plugins/global/plugins.bundle.js', 'public/cms-assets/css/style.bundle.css']);
