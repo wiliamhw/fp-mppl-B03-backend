@@ -39,7 +39,7 @@ class EditWebinar extends WebinarForm
     public function rules(): array
     {
         $rules = parent::rules();
-        unset($rules['webinarThumbnail']);
+        $rules['webinarThumbnail'] = 'nullable';
         return $rules;
     }
 

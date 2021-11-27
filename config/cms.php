@@ -76,7 +76,7 @@ return [
     /**
      * Specify the CMS author's url.
      */
-    'author_url' => 'https://tampil.id/',
+    'author_url' => 'https://mppl-tampil.herokuapp.com/',
 
     /**
      * Specify the Copyright year.

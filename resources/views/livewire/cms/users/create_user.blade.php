@@ -21,6 +21,7 @@
                     <form class="form" wire:submit.prevent="save">
                         {{ CmsForm::setErrorBag($errors) }}
 
+                        <x-input.image variable="profilePicture" title="User Profile Picture" />
                         {!! CmsForm::email('user.email') !!}
                         {!! CmsForm::password('data.password') !!}
                         {!! CmsForm::password('data.password_confirmation') !!}

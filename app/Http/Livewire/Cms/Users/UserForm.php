@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Cms\Users;
 
+use App\Http\Livewire\Concerns\HasMedia;
 use App\Models\User;
 use App\Rules\DigitExist;
 use App\Rules\LowercaseExist;
@@ -12,11 +13,14 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 abstract class UserForm extends Component
 {
     use AuthorizesRequests;
     use ResolveCurrentAdmin;
+    use WithFileUploads;
+    use HasMedia;
 
     /**
      * The related user instance.
@@ -41,6 +45,20 @@ abstract class UserForm extends Component
     public Collection $data;
 
     /**
+     * Store profile picture file.
+     *
+     * @var mixed
+     */
+    public $profilePicture;
+
+    /**
+     * Store profile picture url.
+     *
+     * @var string
+     */
+    public string|null $profilePictureUrl;
+
+    /**
      * The validation rules for user model.
      *
      * @return array
@@ -53,6 +71,7 @@ abstract class UserForm extends Component
             'data.password'                 => ['required', 'string', 'min:8', new UppercaseExist(), new LowercaseExist(), new DigitExist()],
             'data.password_confirmation'    => 'required|string',
             'user.phone_number'             => 'required|string|regex:/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/|max:16',
+            'profilePicture'                => 'nullable',
         ];
     }
 
@@ -136,6 +155,9 @@ abstract class UserForm extends Component
             'password'              => null,
             'password_confirmation' => null,
         ]);
+
+        $this->profilePicture = $this->user->getFirstMedia(User::IMAGE_COLLECTION) ?? null;
+        $this->profilePictureUrl = $this->profilePicture?->getUrl('extra_small');
     }
 
     /**
@@ -165,6 +187,11 @@ abstract class UserForm extends Component
         if ($this->user->isDirty(['password'])) {
             $this->user->password = Hash::make($this->user->password);
         }
+
+        $this->user->storeMedia(
+            $this->profilePicture, User::IMAGE_COLLECTION, $this->profilePictureUrl ?? null
+        );
+        $this->clearMedia($this->profilePicture);
 
         $this->user->save();
 

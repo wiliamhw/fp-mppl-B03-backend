@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\CollabRequest;
 use App\Models\Comment;
+use App\Models\Concerns\ConvertImage;
 use App\Models\DiscussionTopic;
 use App\Models\UserWebinar;
 use App\Models\Webinar;
@@ -13,13 +14,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     use HasFactory;
     use HasApiTokens;
     use HasRoles;
+    use ConvertImage;
+
+    const IMAGE_COLLECTION = 'user_profile_picture';
 
     /**
      * The attributes that should be mutated to dates.
@@ -108,4 +113,14 @@ class User extends Authenticatable
 //    {
 //        return $this->belongsToMany(Webinar::class, 'user_webinar');
 //    }
+
+    /**
+     * Get image collection.
+     *
+     * @return array
+     */
+    protected function getAllImageCollections(): array
+    {
+        return [self::IMAGE_COLLECTION];
+    }
 }

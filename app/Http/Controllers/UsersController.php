@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\Concerns\HandleApiExceptions;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserSaveRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\QueryBuilders\UserBuilder;
 use App\Traits\ApiResponse;
 use Hash;
 use Illuminate\Http\JsonResponse;
@@ -51,9 +51,9 @@ class UsersController extends Controller
      * @param Request $request
      * @return UserResource
      */
-    public function show(Request $request): UserResource
+    public function show(UserBuilder $query, Request $request): UserResource
     {
-        return new UserResource($request->user());
+        return new UserResource($query->find($request->user()->getKey()));
     }
 
     /**

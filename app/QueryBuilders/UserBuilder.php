@@ -3,12 +3,15 @@
 namespace App\QueryBuilders;
 
 use App\Http\Requests\UserGetRequest;
+use App\Models\Concerns\MediaAllowedAppends;
 use App\Models\User;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class UserBuilder extends Builder
 {
+    use MediaAllowedAppends;
+
     /**
      * Current HTTP Request object.
      *
@@ -116,5 +119,17 @@ final class UserBuilder extends Builder
     protected function getDefaultSort(): string
     {
         return 'id';
+    }
+
+    /**
+     * Get default query builder.
+     *
+     * @return QueryBuilder
+     */
+    public function query(): QueryBuilder
+    {
+        // @phpstan-ignore-next-line
+        return parent::query()
+            ->allowedAppends($this->getMediaAllowedAppends());
     }
 }

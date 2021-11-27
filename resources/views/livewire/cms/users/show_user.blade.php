@@ -21,6 +21,8 @@
                     <form class="form">
                         {{ CmsForm::setErrorBag($errors) }}
 
+                        <x-image_preview title="Current Profile Picture" :imageUrl="$profilePictureUrl"/>
+
                         {!! CmsForm::email('user.email', ['disabled' => 'disabled']) !!}
                         {!! CmsForm::text('user.name', ['disabled' => 'disabled']) !!}
                         {!! CmsForm::tel('user.phone_number', ['disabled' => 'disabled']) !!}
