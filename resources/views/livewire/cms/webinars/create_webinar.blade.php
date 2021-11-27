@@ -21,6 +21,7 @@
                     <form class="form" wire:submit.prevent="save">
                         {{ CmsForm::setErrorBag($errors) }}
 
+                        <x-input.image variable="webinarThumbnail" title="Webinar Thumnail" />
                         {!! CmsForm::select('webinar.category_id', $categoryOptions)->setTitle('Category') !!}
                         {!! CmsForm::text('webinar.title') !!}
                         <div class="form-group">

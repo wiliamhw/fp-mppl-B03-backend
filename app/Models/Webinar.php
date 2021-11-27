@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Category;
+use App\Models\Concerns\ConvertImage;
 use App\Models\Concerns\OldDateSerializer;
 use App\Models\User;
 use App\Models\UserWebinar;
@@ -12,11 +13,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\HasMedia;
 
-class Webinar extends Model
+class Webinar extends Model implements HasMedia
 {
     use HasFactory;
     use OldDateSerializer;
+    use ConvertImage;
 
     const TYPE_PAID = 'Berbayar';
     const TYPE_FREE = 'Gratis';
@@ -33,6 +36,8 @@ class Webinar extends Model
         self::STATUS_HAS_START,
         self::STATUS_HASNT_START
     ];
+
+    const IMAGE_COLLECTION = 'article_thumbnail';
 
     /**
      * The attributes that should be mutated to dates.
@@ -148,5 +153,15 @@ class Webinar extends Model
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('published_at', '!=', null);
+    }
+
+    /**
+     * Get image collection.
+     *
+     * @return array
+     */
+    protected function getAllImageCollections(): array
+    {
+        return [self::IMAGE_COLLECTION];
     }
 }
