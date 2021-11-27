@@ -4,6 +4,9 @@ namespace App\Http\Livewire\Cms\Admins;
 
 use App\Models\Admin;
 use App\Models\Role;
+use App\Rules\DigitExist;
+use App\Rules\LowercaseExist;
+use App\Rules\UppercaseExist;
 use Cms\Livewire\Concerns\ResolveCurrentAdmin;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -48,15 +51,18 @@ abstract class AdminForm extends Component
     /**
      * The validation rules for admin model.
      *
-     * @var string[]
+     * @return array
      */
-    protected array $rules = [
-        'data.name'                  => 'required|string|min:2|max:255',
-        'data.email'                 => 'required|string|email|min:11|max:255',
-        'data.password'              => 'required|string|min:8|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/',
-        'data.password_confirmation' => 'required|string',
-        'data.roles'                 => 'nullable',
-    ];
+    protected function rules(): array
+    {
+        return [
+            'data.name'                  => 'required|string|min:2|max:255',
+            'data.email'                 => 'required|string|email|min:11|max:255',
+            'data.password'              => ['required', 'string', 'min:8', new UppercaseExist(), new LowercaseExist(), new DigitExist()],
+            'data.password_confirmation' => 'required|string',
+            'data.roles'                 => 'nullable',
+        ];
+    }
 
     /**
      * Redirect and go back to index page.
