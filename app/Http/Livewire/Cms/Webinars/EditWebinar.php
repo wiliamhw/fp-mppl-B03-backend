@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Cms\Webinars;
 
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class EditWebinar extends WebinarForm
 {
@@ -28,6 +29,18 @@ class EditWebinar extends WebinarForm
         parent::mount();
         $this->startAt = Carbon::parse($this->webinar->start_at)->format('Y-m-d\TH:i');
         $this->endAt   = Carbon::parse($this->webinar->end_at)->format('Y-m-d\TH:i');
+    }
+
+    /**
+     * The validation rules for promo model.
+     *
+     * @return array
+     */
+    public function rules(): array
+    {
+        $rules = parent::rules();
+        unset($rules['webinarThumbnail']);
+        return $rules;
     }
 
     /**

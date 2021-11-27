@@ -5,6 +5,8 @@ namespace Tests\Livewire\Cms\Webinars;
 use App\Models\Admin;
 use App\Models\Webinar;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\CmsTests;
 use Tests\TestCase;
@@ -45,7 +47,7 @@ class CreateWebinarTest extends TestCase
     }
 
     /** @test */
-    public function it_can_save_the_new_webinar_record()
+    public function it_can_not_save_the_new_webinar_record()
     {
         $data = $this->fakeRawData(Webinar::class, [
             'start_at'      => date('Y-m-d H:i:s'),
@@ -63,14 +65,10 @@ class CreateWebinarTest extends TestCase
             ->set('webinar.max_participants', $data['max_participants'])
             ->set('isPublished', 'true')
             ->call('save')
-            ->assertHasNoErrors()
-            ->assertRedirect('/cms/webinars');
+            ->assertHasErrors();
 
         unset($data['published_at']);
-        $this->assertDatabaseHas('webinars', $data);
-
-        self::assertEquals('success', session('alertType'));
-        self::assertEquals('The new webinar has been saved.', session('alertMessage'));
+        $this->assertDatabaseMissing('webinars', $data);
     }
 
     /** @test */

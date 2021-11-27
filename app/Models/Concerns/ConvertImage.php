@@ -66,7 +66,6 @@ trait ConvertImage
                 ->keepOriginalImageFormat()
                 ->quality(config('media-library.quality', 95))
                 ->optimize()
-                ->withResponsiveImages()
                 ->width($size['w'])
                 ->height($size['h'])
                 ->sharpen(10)
@@ -96,8 +95,8 @@ trait ConvertImage
             ->addMediaFromDisk(
                 'livewire-tmp/'.$image->getFilename(), config('livewire.temporary_file_upload.disk')
             )
-            ->usingName(sha1(time()))
-            ->usingFileName(sha1(time()))
+            ->usingName(sha1((string) time()))
+            ->usingFileName(sha1((string) time()))
             ->toMediaCollection($collectionName);
     }
 }

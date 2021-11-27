@@ -60,12 +60,10 @@ class WebinarsTest extends TestCase
         return [
             'category_id'       => $this->getCastedAttribute('category_id'),
             'title'             => $this->getCastedAttribute('title'),
-            'description'       => $this->getCastedAttribute('description'),
             'start_at'          => $this->getCastedAttribute('start_at'),
             'end_at'            => $this->getCastedAttribute('end_at'),
             'price'             => $this->getCastedAttribute('price'),
             'type'              => $this->getCastedAttribute('type'),
-            'max_participants'  => $this->getCastedAttribute('max_participants'),
             'status'            => $this->getCastedAttribute('status'),
         ];
     }
