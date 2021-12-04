@@ -47,4 +47,12 @@ class WebinarFactory extends Factory
                 : null
         ];
     }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Webinar $webinar) {
+            $webinar->addMediaFromUrl($this->faker->imageUrl())
+                ->toMediaCollection(Webinar::IMAGE_COLLECTION);
+        });
+    }
 }

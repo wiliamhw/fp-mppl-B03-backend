@@ -37,7 +37,7 @@ class Webinar extends Model implements HasMedia
         self::STATUS_HASNT_START
     ];
 
-    const IMAGE_COLLECTION = 'article_thumbnail';
+    const IMAGE_COLLECTION = 'webinar_thumbnail';
 
     /**
      * The attributes that should be mutated to dates.
