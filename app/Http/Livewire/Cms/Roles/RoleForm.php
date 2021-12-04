@@ -253,6 +253,7 @@ abstract class RoleForm extends Component
 
         $this->role->save();
 
+        in_array('access-cms', $this->permissions) ?: array_push($this->permissions, 'access-cms');
         $this->role->syncPermissions($this->permissions);
 
         session()->flash('alertType', 'success');
