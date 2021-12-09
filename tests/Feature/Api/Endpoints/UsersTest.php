@@ -5,6 +5,8 @@ namespace Tests\Feature\Api\Endpoints;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Queue;
+use Spatie\MediaLibrary\Conversions\Jobs\PerformConversionsJob;
 use Storage;
 use Tests\TestCase;
 
@@ -85,6 +87,8 @@ class UsersTest extends TestCase
     /** @test */
     public function create_endpoint_works_as_expected()
     {
+        Queue::fake();
+
         // Submitted data
         $data = User::factory()->raw();
         $data['profile_picture'] = File::image('profile_picture.jpg');
@@ -98,12 +102,14 @@ class UsersTest extends TestCase
             ->assertJsonFragment($seenData);
 
         $this->assertDatabaseHas('users', $seenData);
-        $this->assertMediaUpload($this->user, User::IMAGE_COLLECTION);
+        Queue::assertPushed(PerformConversionsJob::class, 1);
     }
 
     /** @test */
     public function update_endpoint_works_as_expected()
     {
+        Queue::fake();
+
         // Submitted data
         $data = User::factory()->raw();
         $data['profile_picture'] = File::image('profile_picture.jpg');
@@ -117,7 +123,7 @@ class UsersTest extends TestCase
             ->assertJsonFragment($seenData);
 
         $this->assertDatabaseHas('users', $seenData);
-        $this->assertMediaUpload($this->user, User::IMAGE_COLLECTION);
+        Queue::assertPushed(PerformConversionsJob::class, 1);
     }
 
     /** @test */
