@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Faker\Generator;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $users = User::factory(5)->create();
-        $faker = new Generator();
+        $faker = Factory::create();
 
         foreach ($users as $user) {
             $user->addMediaFromUrl($faker->imageUrl())

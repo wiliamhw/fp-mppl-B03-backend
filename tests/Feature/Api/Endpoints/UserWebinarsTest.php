@@ -50,6 +50,7 @@ class UserWebinarsTest extends TestCase
 
         $this->user = User::factory()->create();
         $this->user->webinars()->attach($this->webinar->id);
+
         $this->actingAs($this->user);
     }
 

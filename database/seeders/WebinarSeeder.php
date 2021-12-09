@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Webinar;
-use Faker\Generator;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class WebinarSeeder extends Seeder
@@ -17,7 +17,7 @@ class WebinarSeeder extends Seeder
     public function run()
     {
         $categoryIds = Category::pluck('id')->take(8)->toArray();
-        $faker = new Generator();
+        $faker = Factory::create();
 
         foreach ($categoryIds as $categoryId) {
             $webinars = Webinar::factory(2)->create([
