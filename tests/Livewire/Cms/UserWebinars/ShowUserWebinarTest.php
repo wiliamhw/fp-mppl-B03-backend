@@ -43,7 +43,8 @@ class ShowUserWebinarTest extends TestCase
 
         $this->actingAs($this->admin, config('cms.guard'));
 
-        $this->userWebinar = UserWebinar::factory()->create();
+        UserWebinar::factory()->create();
+        $this->userWebinar = UserWebinar::first();
     }
 
     /** @test */
@@ -59,7 +60,7 @@ class ShowUserWebinarTest extends TestCase
         Livewire::test('cms.user-webinars.show-user-webinar', ['userWebinar' => $this->userWebinar])
             ->call('edit')
             ->assertHasNoErrors()
-            ->assertRedirect('/cms/user_webinars/'. $this->userWebinar->getKey() .'/edit');
+            ->assertRedirect('/cms/user_webinars/'. $this->userWebinar->id .'/edit');
     }
 
     /** @test */

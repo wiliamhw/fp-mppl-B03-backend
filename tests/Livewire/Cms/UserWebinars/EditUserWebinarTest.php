@@ -69,7 +69,7 @@ class EditUserWebinarTest extends TestCase
             ->assertHasNoErrors()
             ->assertRedirect('/cms/user_webinars');
 
-        $this->assertDatabaseHas('user_webinars', $data);
+        $this->assertDatabaseHas('user_webinar', $data);
 
         self::assertEquals('success', session('alertType'));
         self::assertEquals('The user webinar has been updated.', session('alertMessage'));
@@ -91,6 +91,6 @@ class EditUserWebinarTest extends TestCase
             ->assertHasNoErrors()
             ->assertRedirect('/cms/user_webinars');
 
-        $this->assertDatabaseMissing('user_webinars', $data);
+        $this->assertDatabaseMissing('user_webinar', $data);
     }
 }

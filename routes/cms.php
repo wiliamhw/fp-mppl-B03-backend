@@ -61,6 +61,5 @@ Route::get('/webinars/{webinar}/edit', 'Webinars\EditWebinar')->name('webinars.e
  * Begin route definition for `User Webinars` resources.
  */
 Route::get('/user_webinars', 'UserWebinars\UserWebinarsIndex')->name('user_webinars.index');
-Route::get('/user_webinars/create', 'UserWebinars\CreateUserWebinar')->name('user_webinars.create');
 Route::get('/user_webinars/{userWebinar}', 'UserWebinars\ShowUserWebinar')->name('user_webinars.show');
 Route::get('/user_webinars/{userWebinar}/edit', 'UserWebinars\EditUserWebinar')->name('user_webinars.edit');
