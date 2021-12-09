@@ -5,6 +5,9 @@ namespace App\Models;
 use App\Models\Concerns\OldDateSerializer;
 use App\Models\PaymentLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -34,6 +37,28 @@ class UserWebinar extends Pivot
         'feedback',
         'payment_token',
     ];
+
+    /**
+     * Model relationship definition.
+     * User belongs to a Webinars
+     *
+     * @return BelongsTo
+     */
+    public function webinar(): BelongsTo
+    {
+        return $this->BelongsTo(Webinar::class);
+    }
+
+    /**
+     * Model relationship definition.
+     * User belongs to a User
+     *
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->BelongsTo(User::class);
+    }
 
 //    /**
 //     * Model relationship definition.

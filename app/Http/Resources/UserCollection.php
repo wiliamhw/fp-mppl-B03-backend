@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Cms\Resources\Concerns\StripResourceElements;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class UserCollection extends ResourceCollection
