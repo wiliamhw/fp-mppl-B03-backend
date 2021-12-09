@@ -25,7 +25,6 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-
             'email' => $this->faker->safeEmail,
             'password' => Hash::make('password'), // password
             'name' => $this->faker->text(rand(5, 32)),

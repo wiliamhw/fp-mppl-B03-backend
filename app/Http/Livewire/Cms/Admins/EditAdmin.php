@@ -2,6 +2,10 @@
 
 namespace App\Http\Livewire\Cms\Admins;
 
+use App\Rules\DigitExist;
+use App\Rules\LowercaseExist;
+use App\Rules\UppercaseExist;
+
 class EditAdmin extends AdminForm
 {
     /**
@@ -15,14 +19,19 @@ class EditAdmin extends AdminForm
     /**
      * The validation rules for admin model.
      *
-     * @var string[]
+     * @return array
      */
-    protected array $rules = [
-        'data.name'                  => 'required|string|min:2|max:255',
-        'data.email'                 => 'required|string|email|min:11|max:255',
-        'data.password'              => 'nullable|min:8|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/',
-        'data.password_confirmation' => 'nullable',
-    ];
+    protected function rules(): array
+    {
+        $rules = parent::rules();
+        $rules['data.password'] = [
+            'nullable', 'string', 'min:8', 'confirmed',
+            new UppercaseExist(), new LowercaseExist(), new DigitExist(),
+        ];
+        $rules['data.password_confirmation'] = ['nullable', 'string'];
+
+        return $rules;
+    }
 
     /**
      * Render the LiveWire component.

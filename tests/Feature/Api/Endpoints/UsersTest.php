@@ -3,8 +3,9 @@
 namespace Tests\Feature\Api\Endpoints;
 
 use App\Models\User;
-use Faker\Generator;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Http\Testing\File;
+use Storage;
 use Tests\TestCase;
 
 class UsersTest extends TestCase
@@ -86,16 +87,18 @@ class UsersTest extends TestCase
     {
         // Submitted data
         $data = User::factory()->raw();
+        $data['profile_picture'] = File::image('profile_picture.jpg');
 
         // The data which should be shown
         $seenData = $data;
-        unset($seenData['password']);
+        unset($seenData['password'], $seenData['profile_picture']);
 
         $this->postJson($this->endpoint, $data)
             ->assertStatus(201)
             ->assertJsonFragment($seenData);
 
         $this->assertDatabaseHas('users', $seenData);
+        $this->assertMediaUpload($this->user, User::IMAGE_COLLECTION);
     }
 
     /** @test */
@@ -103,16 +106,18 @@ class UsersTest extends TestCase
     {
         // Submitted data
         $data = User::factory()->raw();
+        $data['profile_picture'] = File::image('profile_picture.jpg');
 
         // The data which should be shown
         $seenData = $data;
-        unset($seenData['password']);
+        unset($seenData['password'], $seenData['profile_picture']);
 
         $this->patchJson($this->endpoint, $data)
             ->assertStatus(200)
             ->assertJsonFragment($seenData);
 
         $this->assertDatabaseHas('users', $seenData);
+        $this->assertMediaUpload($this->user, User::IMAGE_COLLECTION);
     }
 
     /** @test */

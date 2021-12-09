@@ -128,7 +128,6 @@ final class UserBuilder extends Builder
      */
     public function query(): QueryBuilder
     {
-        // @phpstan-ignore-next-line
         return parent::query()
             ->allowedAppends($this->getMediaAllowedAppends());
     }

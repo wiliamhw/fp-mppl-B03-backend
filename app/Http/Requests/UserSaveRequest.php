@@ -32,6 +32,7 @@ class UserSaveRequest extends FormRequest
             'password' => ['required', 'string', 'min:8', new UppercaseExist(), new LowercaseExist(), new DigitExist()],
             'name' => 'required|string|min:2|max:255',
             'phone_number' => 'required|string|regex:/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/|max:16',
+            'profile_picture'   => 'nullable|image|mimes:png,jpeg|max:2048'
         ];
     }
 }

@@ -23,8 +23,14 @@
 
                         {!! CmsForm::text('data.name') !!}
                         {!! CmsForm::email('data.email') !!}
-                        {!! CmsForm::password('data.password', ['required' => false]) !!}
-                        {!! CmsForm::password('data.password_confirmation', ['required' => false]) !!}
+                        {!! CmsForm::password('data.password', [
+                            'required' => false,
+                            'readonly' => 'none', 'onfocus' => 'this.removeAttribute(\'readonly\');'
+                        ]) !!}
+                        {!! CmsForm::password('data.password_confirmation', [
+                                'required' => false,
+                                'readonly' => 'none', 'onfocus' => 'this.removeAttribute(\'readonly\');'
+                        ]) !!}
                         {!! CmsForm::select('data.roles', $roleOptions, ['class' => 'form-control input-select2', 'multiple' => 'multiple']) !!}
 
                         <div class="form-group text-center">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserSaveRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\QueryBuilders\UserBuilder;
@@ -71,6 +72,8 @@ class UsersController extends Controller
         $userData['password'] = Hash::make($userData['password']);
         $user->fill($userData)->save();
 
+        $user->storeMediaFromApi($request,User::IMAGE_COLLECTION, 'profile_picture');
+
         $resource = (new UserResource($user))
             ->additional([
                 'info'  => 'The new user has been saved.',
@@ -86,11 +89,11 @@ class UsersController extends Controller
      *
      * @authenticated
      *
-     * @param \App\Http\Requests\UserSaveRequest $request
+     * @param \App\Http\Requests\UserUpdateRequest $request
      *
      * @return UserResource
      */
-    public function update(UserSaveRequest $request): UserResource
+    public function update(UserUpdateRequest $request): UserResource
     {
         $user = $request->user();
         $user->fill($request->only($user->offsetGet('fillable')));
@@ -98,6 +101,8 @@ class UsersController extends Controller
         if ($user->isDirty()) {
             $user->save();
         }
+
+        $user->storeMediaFromApi($request,User::IMAGE_COLLECTION, 'profile_picture');
 
         return (new UserResource($user))
             ->additional(['info' => 'The user has been updated.']);
