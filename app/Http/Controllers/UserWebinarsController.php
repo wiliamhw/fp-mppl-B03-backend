@@ -6,8 +6,10 @@ use App\Http\Requests\UserWebinarSaveRequest;
 use App\Http\Resources\UserWebinarCollection;
 use App\Http\Resources\UserWebinarResource;
 use App\Models\UserWebinar;
+use App\Models\Webinar;
 use App\QueryBuilders\UserWebinarBuilder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * @group User Webinar Management
@@ -65,12 +67,13 @@ class UserWebinarsController extends Controller
      * Filter the resources by specifying any keyword to search.
      *
      * @param \App\QueryBuilders\UserWebinarBuilder $query
-     *
+     * @param Request $request
      * @return UserWebinarCollection
      */
-    public function index(UserWebinarBuilder $query): UserWebinarCollection
+    public function index(UserWebinarBuilder $query, Request $request): UserWebinarCollection
     {
-        return new UserWebinarCollection($query->paginate());
+        $user = $request->user();
+        return new UserWebinarCollection($query->query()->where('user_id', $user->id)->paginate());
     }
 
     /**
@@ -118,15 +121,18 @@ class UserWebinarsController extends Controller
      * The available relationships for current endpoint are: `user`, `webinar`, `paymentLogs`.
      *
      * @param \App\QueryBuilders\UserWebinarBuilder $query
-     * @param \App\Models\UserWebinar $userWebinar
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     *
+     * @param int $webinarId
+     * @param Request $request
      * @return UserWebinarResource
      */
-    public function show(UserWebinarBuilder $query, UserWebinar $userWebinar): UserWebinarResource
+    public function show(UserWebinarBuilder $query, int $webinarId, Request $request): UserWebinarResource
     {
-        return new UserWebinarResource($query->find($userWebinar->getKey()));
+        return new UserWebinarResource(
+            $query->query()
+                ->where('user_id', $request->user()->id)
+                ->where('webinar_id', $webinarId)
+                ->firstOrFail()
+        );
     }
 
     /**

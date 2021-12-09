@@ -21,7 +21,7 @@ class UserWebinarSeeder extends Seeder
 
         foreach ($userIds as $userId) {
             foreach ($webinarIds as $webinarId) {
-                UserWebinar::factory(5)->create([
+                UserWebinar::factory()->create([
                     'user_id' => $userId,
                     'webinar_id' => $webinarId,
                 ]);

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\UserWebinarsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,9 +37,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users',  [UsersController::class, 'show'])->name('users.show');
     Route::patch('/users',  [UsersController::class, 'update'])->name('users.update');
     Route::get('/users/logout',  [UsersController::class, 'logout'])->name('users.logout');
+
+    Route::apiResource('/user_webinars', 'UserWebinarsController')->except(['update']);
 });
 
 Route::apiResource('/settings', 'SettingsController')->only(['index', 'show']);
 Route::apiResource('/categories', 'CategoriesController')->only(['index']);
 Route::apiResource('/webinars', 'WebinarsController')->only(['index', 'show']);
-Route::apiResource('/user_webinars', 'UserWebinarsController');
