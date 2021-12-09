@@ -43,6 +43,6 @@ class CreateUserWebinarTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_webinars');
+        Schema::dropIfExists('user_webinar');
     }
 }

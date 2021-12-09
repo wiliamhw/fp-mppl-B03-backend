@@ -4,8 +4,10 @@ namespace Tests\Feature\Api\Endpoints;
 
 use App\Models\User;
 use App\Models\UserWebinar;
+use App\Models\Webinar;
 use Faker\Generator;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class UserWebinarsTest extends TestCase
@@ -20,25 +22,18 @@ class UserWebinarsTest extends TestCase
     protected $user;
 
     /**
+     * Variable to store webinar model
+     *
+     * @var Webinar
+     */
+    protected $webinar;
+
+    /**
      * Current endpoint url which being tested.
      *
      * @var string
      */
     protected $endpoint = '/api/user_webinars/';
-
-    /**
-     * Faker generator instance.
-     *
-     * @var \Faker\Generator
-     */
-    protected $faker;
-
-    /**
-     * The model which being tested.
-     *
-     * @var UserWebinar
-     */
-    protected $model;
 
     /**
      * Setup the test environment.
@@ -51,12 +46,11 @@ class UserWebinarsTest extends TestCase
 
         $this->seed(['PermissionSeeder', 'RoleSeeder']);
 
-        $this->faker = new Generator();
-        $this->user = User::factory()->create()->assignRole('super-administrator');
+        $this->webinar = Webinar::factory()->create();
 
-        $this->actingAs($this->user, config('api.cms_guard'));
-
-        $this->model = UserWebinar::factory()->create();
+        $this->user = User::factory()->create();
+        $this->user->webinars()->attach($this->webinar->id);
+        $this->actingAs($this->user);
     }
 
     /** @test */
@@ -65,27 +59,27 @@ class UserWebinarsTest extends TestCase
         $this->getJson($this->endpoint)
             ->assertStatus(200)
             ->assertJsonFragment([
-                'user_id' => $this->model->getAttribute('user_id'),
-                'webinar_id' => $this->model->getAttribute('webinar_id'),
-                'payment_status' => $this->model->getAttribute('payment_status'),
-                'payment_method' => $this->model->getAttribute('payment_method'),
-                'feedback' => $this->model->getAttribute('feedback'),
-                'payment_token' => $this->model->getAttribute('payment_token'),
+                'user_id'           => $this->user->getAttribute('id'),
+                'webinar_id'        => $this->webinar->getAttribute('id'),
+                'payment_status'    => UserWebinar::PAYMENT_ON_PROGRESS,
+                'payment_method'    => null,
+                'feedback'          => null,
+                'payment_token'     => null,
             ]);
     }
 
     /** @test */
     public function show_endpoint_works_as_expected()
     {
-        $this->getJson($this->endpoint.$this->model->getKey())
+        $this->getJson($this->endpoint.$this->webinar->getKey())
             ->assertStatus(200)
             ->assertJsonFragment([
-                'user_id' => $this->model->getAttribute('user_id'),
-                'webinar_id' => $this->model->getAttribute('webinar_id'),
-                'payment_status' => $this->model->getAttribute('payment_status'),
-                'payment_method' => $this->model->getAttribute('payment_method'),
-                'feedback' => $this->model->getAttribute('feedback'),
-                'payment_token' => $this->model->getAttribute('payment_token'),
+                'user_id' => $this->user->getAttribute('id'),
+                'webinar_id' => $this->webinar->getAttribute('id'),
+                'payment_status' => UserWebinar::PAYMENT_ON_PROGRESS,
+                'payment_method' => null,
+                'feedback' => null,
+                'payment_token' => null,
             ]);
     }
 
@@ -104,45 +98,37 @@ class UserWebinarsTest extends TestCase
     }
 
     /** @test */
-    public function update_endpoint_works_as_expected()
+    public function user_cant_register_to_an_already_registered_webinar()
     {
         // Submitted data
-        $data = UserWebinar::factory()->raw();
+        $data = [
+            'webinar_id' => $this->webinar->id,
+        ];
 
         // The data which should be shown
         $seenData = $data;
 
-        $this->patchJson($this->endpoint.$this->model->getKey(), $data)
-            ->assertStatus(200)
-            ->assertJsonFragment($seenData);
+        $this->postJson($this->endpoint, $data)
+            ->assertStatus(422)
+            ->assertJsonMissing($seenData);
     }
 
     /** @test */
     public function delete_endpoint_works_as_expected()
     {
-        $this->deleteJson($this->endpoint.$this->model->getKey())
+        $this->deleteJson($this->endpoint.$this->webinar->getKey())
             ->assertStatus(200)
             ->assertJsonFragment([
                 'info' => 'The user webinar has been deleted.',
             ]);
 
-        $this->assertDatabaseHas('user_webinars', [
-            'user_id' => $this->model->getAttribute('user_id'),
-            'webinar_id' => $this->model->getAttribute('webinar_id'),
-            'payment_status' => $this->model->getAttribute('payment_status'),
-            'payment_method' => $this->model->getAttribute('payment_method'),
-            'feedback' => $this->model->getAttribute('feedback'),
-            'payment_token' => $this->model->getAttribute('payment_token'),
-        ]);
-
         $this->assertDatabaseMissing('user_webinars', [
-            'user_id' => $this->model->getAttribute('user_id'),
-            'webinar_id' => $this->model->getAttribute('webinar_id'),
-            'payment_status' => $this->model->getAttribute('payment_status'),
-            'payment_method' => $this->model->getAttribute('payment_method'),
-            'feedback' => $this->model->getAttribute('feedback'),
-            'payment_token' => $this->model->getAttribute('payment_token'),
-            'deleted_at' => null,
+            'user_id' => $this->user->getAttribute('id'),
+            'webinar_id' => $this->webinar->getAttribute('id'),
+            'payment_status' => UserWebinar::PAYMENT_ON_PROGRESS,
+            'payment_method' => null,
+            'feedback' => null,
+            'payment_token' => null,
         ]);
     }
 }
