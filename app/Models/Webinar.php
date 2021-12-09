@@ -81,27 +81,16 @@ class Webinar extends Model implements HasMedia
         return $this->belongsTo(Category::class);
     }
 
-//    /**
-//     * Model relationship definition.
-//     * Webinar has many UserWebinars
-//     *
-//     * @return HasMany
-//     */
-//    public function userWebinars(): HasMany
-//    {
-//        return $this->hasMany(UserWebinar::class, 'webinar_id');
-//    }
-
-//    /**
-//     * Model relationship definition.
-//     * Webinar belongs to many Users
-//     *
-//     * @return BelongsToMany
-//     */
-//    public function users(): BelongsToMany
-//    {
-//        return $this->belongsToMany(User::class, 'user_webinar');
-//    }
+    /**
+     * Model relationship definition.
+     * Webinar belongs to many Users
+     *
+     * @return BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class)->using(UserWebinar::class);
+    }
 
     /**
      * Check whether current webinar is published or not.

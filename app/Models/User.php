@@ -6,13 +6,9 @@ use App\Models\CollabRequest;
 use App\Models\Comment;
 use App\Models\Concerns\ConvertImage;
 use App\Models\DiscussionTopic;
-use App\Models\UserWebinar;
-use App\Models\Webinar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Traits\HasRoles;
@@ -91,28 +87,17 @@ class User extends Authenticatable implements HasMedia
 //    {
 //        return $this->belongsToMany(DiscussionTopic::class, 'comments');
 //    }
-//
-//    /**
-//     * Model relationship definition.
-//     * User has many UserWebinars
-//     *
-//     * @return HasMany
-//     */
-//    public function userWebinars(): HasMany
-//    {
-//        return $this->hasMany(UserWebinar::class, 'user_id');
-//    }
-//
-//    /**
-//     * Model relationship definition.
-//     * User belongs to many Webinars
-//     *
-//     * @return BelongsToMany
-//     */
-//    public function webinars(): BelongsToMany
-//    {
-//        return $this->belongsToMany(Webinar::class, 'user_webinar');
-//    }
+
+    /**
+     * Model relationship definition.
+     * User belongs to many Webinars
+     *
+     * @return BelongsToMany
+     */
+    public function webinars(): BelongsToMany
+    {
+        return $this->belongsToMany(Webinar::class)->using(UserWebinar::class);
+    }
 
     /**
      * Get image collection.

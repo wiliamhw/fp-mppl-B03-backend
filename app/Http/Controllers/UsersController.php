@@ -98,6 +98,10 @@ class UsersController extends Controller
         $user = $request->user();
         $user->fill($request->only($user->offsetGet('fillable')));
 
+        if ($request->has('password')) {
+            $user->password = Hash::make($request->get('password'));
+        }
+
         if ($user->isDirty()) {
             $user->save();
         }
