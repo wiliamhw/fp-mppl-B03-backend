@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserWebinarSaveRequest extends FormRequest
 {
@@ -25,12 +27,27 @@ class UserWebinarSaveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|integer|between:0,4294967295',
-            'webinar_id' => 'required|integer|between:0,4294967295',
-            'payment_status' => 'required|string|min:2|max:45',
+            'webinar_id' => [
+                'required', 'integer', 'between:0,4294967295', 'exists:webinars,id',
+                Rule::unique('user_webinar')->where(function ($query) {
+                    return $query->where('webinar_id', $this->webinar_id)->where('user_id', Auth::id());
+                })
+            ],
             'payment_method' => 'required|string|min:2|max:45',
-            'feedback' => 'required|string|min:2|max:65535',
-            'payment_token' => 'required|string|min:2|max:45',
+            'feedback' => 'nullable|string|min:2|max:65535',
+            'payment_token' => 'nullable|string|min:2|max:45',
+        ];
+    }
+
+    /**
+     * Get the validation messages that apply to the request.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'webinar_id.unique' => 'User telah terdaftar pada webinar ini.',
         ];
     }
 }

@@ -29,9 +29,7 @@ class UserWebinar extends Pivot
      * @var string[]
      */
     protected $fillable = [
-        'user_id',
         'webinar_id',
-        'payment_status',
         'payment_method',
         'feedback',
         'payment_token',

@@ -16,8 +16,8 @@ class UserWebinarSeeder extends Seeder
      */
     public function run()
     {
-        $userIds = User::pluck('id')->toArray();
-        $webinarIds = Webinar::pluck('id')->toArray();
+        $userIds = User::pluck('id')->take(5)->toArray();
+        $webinarIds = Webinar::pluck('id')->take(5)->toArray();
 
         foreach ($userIds as $userId) {
             foreach ($webinarIds as $webinarId) {

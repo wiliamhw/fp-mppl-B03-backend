@@ -32,6 +32,7 @@ class CreateUserWebinarTable extends Migration
                 ->on('webinars')
                 ->onDelete('cascade');
 
+            $table->unique(['user_id', 'webinar_id']);
         });
     }
 

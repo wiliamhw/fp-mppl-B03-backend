@@ -10,6 +10,7 @@ use App\Models\Webinar;
 use App\QueryBuilders\UserWebinarBuilder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @group User Webinar Management
@@ -67,13 +68,11 @@ class UserWebinarsController extends Controller
      * Filter the resources by specifying any keyword to search.
      *
      * @param \App\QueryBuilders\UserWebinarBuilder $query
-     * @param Request $request
      * @return UserWebinarCollection
      */
-    public function index(UserWebinarBuilder $query, Request $request): UserWebinarCollection
+    public function index(UserWebinarBuilder $query): UserWebinarCollection
     {
-        $user = $request->user();
-        return new UserWebinarCollection($query->query()->where('user_id', $user->id)->paginate());
+        return new UserWebinarCollection($query->query()->where('user_id', Auth::id())->paginate());
     }
 
     /**
@@ -89,8 +88,10 @@ class UserWebinarsController extends Controller
      */
     public function store(UserWebinarSaveRequest $request, UserWebinar $userWebinar): JsonResponse
     {
-        $userWebinar->fill($request->only($userWebinar->offsetGet('fillable')))
-            ->save();
+        $userWebinar->fill($request->only($userWebinar->offsetGet('fillable')));
+        $userWebinar->user_id = Auth::id();
+        $userWebinar->payment_status = UserWebinar::PAYMENT_ON_PROGRESS;
+        $userWebinar->save();
 
         $resource = (new UserWebinarResource($userWebinar))
             ->additional(['info' => 'The new user webinar has been saved.']);
@@ -122,14 +123,14 @@ class UserWebinarsController extends Controller
      *
      * @param \App\QueryBuilders\UserWebinarBuilder $query
      * @param int $webinarId
-     * @param Request $request
      * @return UserWebinarResource
      */
-    public function show(UserWebinarBuilder $query, int $webinarId, Request $request): UserWebinarResource
+    public function show(UserWebinarBuilder $query, int $webinarId): UserWebinarResource
     {
+        Webinar::find($webinarId)?->firstOrFail();
         return new UserWebinarResource(
             $query->query()
-                ->where('user_id', $request->user()->id)
+                ->where('user_id', Auth::id())
                 ->where('webinar_id', $webinarId)
                 ->firstOrFail()
         );
@@ -158,7 +159,7 @@ class UserWebinarsController extends Controller
         }
 
         return (new UserWebinarResource($userWebinar))
-            ->additional(['info' => 'The user webinar has been updated.']);
+            ->additional(['info' => 'User webinar has been updated.']);
     }
 
     /**
@@ -170,14 +171,13 @@ class UserWebinarsController extends Controller
      * @urlParam userWebinar required *integer* - No-example
      * The identifier of a specific user webinar resource.
      *
-     * @param \App\Models\UserWebinar $userWebinar
-     *
-     * @throws \Exception
-     *
+     * @param int $webinarId
      * @return UserWebinarResource
      */
-    public function destroy(UserWebinar $userWebinar): UserWebinarResource
+    public function destroy(int $webinarId): UserWebinarResource
     {
+        Webinar::find($webinarId)?->firstOrFail();
+        $userWebinar = UserWebinar::where('webinar_id', $webinarId)->where('user_id', Auth::id())->firstOrFail();
         $userWebinar->delete();
 
         return (new UserWebinarResource($userWebinar))
