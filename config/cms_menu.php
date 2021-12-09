@@ -60,6 +60,12 @@ return [
                     'icon'       => 'menu-icon fa fa-desktop',
                     'permission' => 'cms.webinars.view',
                 ],
+                [
+                    'title'      => 'User\'s Webinars',
+                    'url'        => '/cms/user_webinars',
+                    'icon'       => 'menu-icon fas fa-address-book',
+                    'permission' => 'cms.user_webinar.view',
+                ],
             ],
         ],
     ],

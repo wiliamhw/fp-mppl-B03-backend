@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\Concerns\OldDateSerializer;
 use App\Models\PaymentLog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,6 +23,12 @@ class UserWebinar extends Pivot
         self::PAYMENT_IN_PROGRESS,
         self::PAYMENT_FAILED,
         self::PAYMENT_SUCCESS
+    ];
+
+    const PAYMENT_STATUS_NAME = [
+        self::PAYMENT_IN_PROGRESS   => 'Menunggu Pembayaran',
+        self::PAYMENT_FAILED        => 'Gagal',
+        self::PAYMENT_SUCCESS       => 'Sukses',
     ];
 
     /**
