@@ -59,7 +59,7 @@ abstract class AdminForm extends Component
             'data.name'                  => 'required|string|min:2|max:255',
             'data.email'                 => 'required|string|email|min:11|max:255',
             'data.password'              => ['required', 'string', 'min:8', new UppercaseExist(), new LowercaseExist(), new DigitExist()],
-            'data.password_confirmation' => 'required|string',
+            'data.password_confirmation' => ['required', 'string'],
             'data.roles'                 => 'nullable',
         ];
     }

@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\SeoMeta;
+use App\Models\User;
 use Carbon\Carbon;
 use Cms\Models\Concerns\HasSeoMeta;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Str;
 use RichanFongdasen\I18n\I18nService;
+use Spatie\MediaLibrary\HasMedia;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -203,5 +205,19 @@ abstract class TestCase extends BaseTestCase
             $data = json_encode($data);
         }
         return $data;
+    }
+
+    /**
+     * Assert media upload using laravel media library
+     *
+     * @param HasMedia $model
+     * @param string $collectionName
+     */
+    protected function assertMediaUpload(HasMedia $model, string $collectionName)
+    {
+        $media = $model->getMedia($collectionName);
+        $this->assertCount(1, $media);
+        $this->assertFileExists($media->first()->getPath());
+        $model->clearMediaCollection($collectionName);
     }
 }

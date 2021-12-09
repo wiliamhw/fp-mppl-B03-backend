@@ -2,6 +2,7 @@
 
 namespace App\Models\Concerns;
 
+use Illuminate\Http\Request;
 use Livewire\TemporaryUploadedFile;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -95,6 +96,31 @@ trait ConvertImage
             ->addMediaFromDisk(
                 'livewire-tmp/'.$image->getFilename(), config('livewire.temporary_file_upload.disk')
             )
+            ->usingName(sha1((string) time()))
+            ->usingFileName(sha1((string) time()))
+            ->toMediaCollection($collectionName);
+    }
+
+    /**
+     * Store media from API
+     *
+     * @param Request $request
+     * @param string $collectionName
+     * @param string $fileName
+     */
+    public function storeMediaFromApi(Request $request, string $collectionName, string $fileName): void
+    {
+        if (!$request->hasFile($fileName)) {
+            return;
+        }
+
+        $oldImageExist = ($this->getFirstMedia(self::IMAGE_COLLECTION) != null);
+        if ($oldImageExist) {
+            $this->clearMediaCollection($collectionName);
+        }
+
+        $this
+            ->addMediaFromRequest($fileName)
             ->usingName(sha1((string) time()))
             ->usingFileName(sha1((string) time()))
             ->toMediaCollection($collectionName);
