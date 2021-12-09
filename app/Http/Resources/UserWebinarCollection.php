@@ -15,6 +15,6 @@ class UserWebinarCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return (array) parent::toArray($request);
     }
 }

@@ -89,7 +89,7 @@ class UserWebinarsController extends Controller
     public function store(UserWebinarSaveRequest $request, UserWebinar $userWebinar): JsonResponse
     {
         $userWebinar->fill($request->only($userWebinar->offsetGet('fillable')));
-        $userWebinar->user_id = Auth::id();
+        $userWebinar->user_id = (int) Auth::id();
         $userWebinar->payment_status = UserWebinar::PAYMENT_ON_PROGRESS;
         $userWebinar->save();
 

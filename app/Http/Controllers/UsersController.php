@@ -54,7 +54,7 @@ class UsersController extends Controller
      */
     public function show(UserBuilder $query): UserResource
     {
-        return new UserResource($query->find(Auth::id()));
+        return new UserResource($query->find((int) Auth::id()));
     }
 
     /**
