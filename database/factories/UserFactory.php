@@ -31,12 +31,4 @@ class UserFactory extends Factory
             'phone_number' => $this->faker->e164PhoneNumber,
         ];
     }
-
-    public function configure()
-    {
-        return $this->afterCreating(function (User $user) {
-            $user->addMediaFromUrl($this->faker->imageUrl())
-                ->toMediaCollection(User::IMAGE_COLLECTION);
-        });
-    }
 }

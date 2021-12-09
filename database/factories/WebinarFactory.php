@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Category;
 use App\Models\Webinar;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class WebinarFactory extends Factory
@@ -46,13 +45,5 @@ class WebinarFactory extends Factory
                     ->addMinutes(rand(1, 30))->addSeconds(rand(1, 30))
                 : null
         ];
-    }
-
-    public function configure()
-    {
-        return $this->afterCreating(function (Webinar $webinar) {
-            $webinar->addMediaFromUrl($this->faker->imageUrl())
-                ->toMediaCollection(Webinar::IMAGE_COLLECTION);
-        });
     }
 }
