@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\UserWebinar;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +18,7 @@ class CreateUserWebinarTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->integer('webinar_id')->unsigned();
-            $table->string('payment_status', 45)->default('waiting_payment');
+            $table->string('payment_status', 45)->default(UserWebinar::PAYMENT_IN_PROGRESS);
             $table->string('payment_method', 45)->nullable();
             $table->string('payment_token', 45)->nullable();
             $table->text('feedback')->nullable();

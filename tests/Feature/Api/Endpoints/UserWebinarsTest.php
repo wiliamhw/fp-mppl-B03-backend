@@ -60,9 +60,9 @@ class UserWebinarsTest extends TestCase
         $this->getJson($this->endpoint)
             ->assertStatus(200)
             ->assertJsonFragment([
-                'user_id'           => $this->user->getAttribute('id'),
-                'webinar_id'        => $this->webinar->getAttribute('id'),
-                'payment_status'    => UserWebinar::PAYMENT_ON_PROGRESS,
+                'user_id'           => (string) $this->user->getAttribute('id'),
+                'webinar_id'        => (string) $this->webinar->getAttribute('id'),
+                'payment_status'    => UserWebinar::PAYMENT_IN_PROGRESS,
                 'payment_method'    => null,
                 'feedback'          => null,
                 'payment_token'     => null,
@@ -75,12 +75,12 @@ class UserWebinarsTest extends TestCase
         $this->getJson($this->endpoint.$this->webinar->getKey())
             ->assertStatus(200)
             ->assertJsonFragment([
-                'user_id' => $this->user->getAttribute('id'),
-                'webinar_id' => $this->webinar->getAttribute('id'),
-                'payment_status' => UserWebinar::PAYMENT_ON_PROGRESS,
-                'payment_method' => null,
-                'feedback' => null,
-                'payment_token' => null,
+                'user_id'           => (string) $this->user->getAttribute('id'),
+                'webinar_id'        => (string) $this->webinar->getAttribute('id'),
+                'payment_status'    => UserWebinar::PAYMENT_IN_PROGRESS,
+                'payment_method'    => null,
+                'feedback'          => null,
+                'payment_token'     => null,
             ]);
     }
 
@@ -92,6 +92,9 @@ class UserWebinarsTest extends TestCase
 
         // The data which should be shown
         $seenData = $data;
+        $seenData['payment_status'] = UserWebinar::PAYMENT_IN_PROGRESS;
+        $seenData['user_id']        = $this->user->id;
+        $seenData['webinar_id']     = $data['webinar_id'];
 
         $this->postJson($this->endpoint, $data)
             ->assertStatus(201)
@@ -123,13 +126,13 @@ class UserWebinarsTest extends TestCase
                 'info' => 'The user webinar has been deleted.',
             ]);
 
-        $this->assertDatabaseMissing('user_webinars', [
-            'user_id' => $this->user->getAttribute('id'),
-            'webinar_id' => $this->webinar->getAttribute('id'),
-            'payment_status' => UserWebinar::PAYMENT_ON_PROGRESS,
-            'payment_method' => null,
-            'feedback' => null,
-            'payment_token' => null,
+        $this->assertDatabaseMissing('user_webinar', [
+            'user_id'           => (string) $this->user->getAttribute('id'),
+            'webinar_id'        => (string) $this->webinar->getAttribute('id'),
+            'payment_status'    => UserWebinar::PAYMENT_IN_PROGRESS,
+            'payment_method'    => null,
+            'feedback'          => null,
+            'payment_token'     => null,
         ]);
     }
 }

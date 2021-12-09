@@ -13,12 +13,12 @@ class UserWebinar extends Pivot
     use HasFactory;
     use OldDateSerializer;
 
-    const PAYMENT_ON_PROGRESS = 'on-progress';
+    const PAYMENT_IN_PROGRESS = 'menunggu_pembayaran';
     const PAYMENT_FAILED = 'gagal';
     const PAYMENT_SUCCESS = 'berhasil';
 
     const PAYMENT_STATUS = [
-        self::PAYMENT_ON_PROGRESS,
+        self::PAYMENT_IN_PROGRESS,
         self::PAYMENT_FAILED,
         self::PAYMENT_SUCCESS
     ];

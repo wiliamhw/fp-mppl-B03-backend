@@ -20,23 +20,6 @@ use Illuminate\Support\Facades\Auth;
 class UserWebinarsController extends Controller
 {
     /**
-     * Determine if any access to this resource require authorization.
-     *
-     * @var bool
-     */
-    protected static $requireAuthorization = false;
-
-    /**
-     * UserWebinarsController constructor.
-     */
-    public function __construct()
-    {
-        if (self::$requireAuthorization || (auth()->user() !== null)) {
-            $this->authorizeResource(UserWebinar::class);
-        }
-    }
-
-    /**
      * Resource Collection.
      * Display a collection of the user webinar resources in paginated document format.
      *
@@ -90,7 +73,7 @@ class UserWebinarsController extends Controller
     {
         $userWebinar->fill($request->only($userWebinar->offsetGet('fillable')));
         $userWebinar->user_id = (int) Auth::id();
-        $userWebinar->payment_status = UserWebinar::PAYMENT_ON_PROGRESS;
+        $userWebinar->payment_status = UserWebinar::PAYMENT_IN_PROGRESS;
         $userWebinar->save();
 
         $resource = (new UserWebinarResource($userWebinar))
