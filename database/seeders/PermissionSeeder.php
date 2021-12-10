@@ -22,6 +22,11 @@ class PermissionSeeder extends Seeder
         $this->createResourcePermissionsFor('users');
         $this->createResourcePermissionsFor('categories');
         $this->createResourcePermissionsFor('webinars');
+        $this->createResourcePermissionsFor('user_webinar');
+
+        Permission::where('name', 'cms.user_webinar.create')
+            ->orWhere('name', 'cms.user_webinar.delete')
+            ->delete();
     }
 
     /**

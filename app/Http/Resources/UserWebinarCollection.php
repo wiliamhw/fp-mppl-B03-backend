@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources;
 
-use Cms\Resources\Concerns\StripResourceElements;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class UserCollection extends ResourceCollection
+class UserWebinarCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

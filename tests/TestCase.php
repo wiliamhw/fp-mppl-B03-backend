@@ -9,6 +9,7 @@ use Cms\Models\Concerns\HasSeoMeta;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Support\Str;
 use RichanFongdasen\I18n\I18nService;
 use Spatie\MediaLibrary\HasMedia;
@@ -16,6 +17,14 @@ use Spatie\MediaLibrary\HasMedia;
 abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutMiddleware(
+            ThrottleRequests::class
+        );
+    }
 
     /**
      * Fake any media file using the given filename and

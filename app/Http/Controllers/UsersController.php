@@ -11,6 +11,7 @@ use App\QueryBuilders\UserBuilder;
 use App\Traits\ApiResponse;
 use Hash;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 
@@ -49,12 +50,11 @@ class UsersController extends Controller
      *
      * @authenticated
      *
-     * @param Request $request
      * @return UserResource
      */
-    public function show(UserBuilder $query, Request $request): UserResource
+    public function show(UserBuilder $query): UserResource
     {
-        return new UserResource($query->find($request->user()->getKey()));
+        return new UserResource($query->find((int) Auth::id()));
     }
 
     /**
@@ -97,6 +97,10 @@ class UsersController extends Controller
     {
         $user = $request->user();
         $user->fill($request->only($user->offsetGet('fillable')));
+
+        if ($request->has('password')) {
+            $user->password = Hash::make($request->get('password'));
+        }
 
         if ($user->isDirty()) {
             $user->save();

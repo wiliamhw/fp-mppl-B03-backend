@@ -59,8 +59,6 @@ final class UserBuilder extends Builder
             'email',
             'name',
             'phone_number',
-            AllowedFilter::exact('created_at'),
-            AllowedFilter::exact('updated_at'),
         ];
     }
 
