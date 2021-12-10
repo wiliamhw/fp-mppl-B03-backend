@@ -66,6 +66,13 @@ abstract class WebinarForm extends Component
     public $webinarThumbnail;
 
     /**
+     * Store participants value.
+     *
+     * @var int
+     */
+    public int $participants;
+
+    /**
      * Store image thumbnail url.
      *
      * @var string
@@ -174,6 +181,8 @@ abstract class WebinarForm extends Component
     public function mount(): void
     {
         $this->confirmAuthorization();
+
+        $this->participants = $this->webinar->participants ?? 0;
 
         $this->categoryOptions = Category::pluck('name', 'id')->toArray();
         $this->isPublished = $this->webinar->isPublished() ? 'true' : 'false';

@@ -38,7 +38,8 @@ class WebinarFactory extends Factory
             'price' => $price,
             'type' => $type,
             'zoom_id' => $this->faker->text(rand(6, 11)),
-            'max_participants' => $this->faker->numberBetween(0, 99999),
+            'participants' => 0,
+            'max_participants' => $this->faker->numberBetween(5, 99999),
             'published_at' => $this->faker->boolean(90) ?
                 Carbon::now()
                     ->subDays(rand(1, 60))->addHours(rand(1, 12))

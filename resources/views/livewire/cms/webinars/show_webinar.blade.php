@@ -31,6 +31,7 @@
                         {!! CmsForm::text('priceInRp', ['disabled' => 'disabled'])->setTitle('Price') !!}
                         {!! CmsForm::text('webinarType', ['disabled' => 'disabled'])->setTitle('Webinar Price Type') !!}
                         {!! CmsForm::text('webinar.zoom_id', ['disabled' => 'disabled']) !!}
+                        {!! CmsForm::number('participants', ['disabled' => 'disabled']) !!}
                         {!! CmsForm::number('webinar.max_participants', ['disabled' => 'disabled']) !!}
                         {!! CmsForm::select('isPublished', $isPublishedOptions,  ['disabled'])->setTitle('Is Published') !!}
 

@@ -99,6 +99,11 @@ class UserWebinarsTest extends TestCase
         $this->postJson($this->endpoint, $data)
             ->assertStatus(201)
             ->assertJsonFragment($seenData);
+
+        $this->assertDatabaseHas('webinars', [
+            'id'            => $data['webinar_id'],
+            'participants'  => 1,
+        ]);
     }
 
     /** @test */
@@ -133,6 +138,11 @@ class UserWebinarsTest extends TestCase
             'payment_method'    => null,
             'feedback'          => null,
             'payment_token'     => null,
+        ]);
+
+        $this->assertDatabaseHas('webinars', [
+            'id'            => $this->webinar->getKey(),
+            'participants'  => 0,
         ]);
     }
 }

@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Concerns\HandleApiExceptions;
 use App\Http\Requests\UserWebinarSaveRequest;
 use App\Http\Resources\UserWebinarCollection;
 use App\Http\Resources\UserWebinarResource;
 use App\Models\UserWebinar;
 use App\Models\Webinar;
 use App\QueryBuilders\UserWebinarBuilder;
+use Cms\Resources\Concerns\StripResourceElements;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -19,6 +21,9 @@ use Illuminate\Support\Facades\Auth;
  */
 class UserWebinarsController extends Controller
 {
+    use HandleApiExceptions;
+    use StripResourceElements;
+
     /**
      * Resource Collection.
      * Display a collection of the user webinar resources in paginated document format.
@@ -71,6 +76,13 @@ class UserWebinarsController extends Controller
      */
     public function store(UserWebinarSaveRequest $request, UserWebinar $userWebinar): JsonResponse
     {
+        $webinar = Webinar::where('id', $request->webinar_id)->firstOrFail();
+        if ($webinar->max_participants < $webinar->participants + 1) {
+            throw new AuthorizationException(
+                'Kuota pendaftaran peserta pada webinar ini sudah dicapai.',
+            );
+        }
+
         $userWebinar->fill($request->only($userWebinar->offsetGet('fillable')));
         $userWebinar->user_id = (int) Auth::id();
         $userWebinar->payment_status = UserWebinar::PAYMENT_IN_PROGRESS;
@@ -78,6 +90,7 @@ class UserWebinarsController extends Controller
 
         $resource = (new UserWebinarResource($userWebinar))
             ->additional(['info' => 'The new user webinar has been saved.']);
+        unset($resource['webinar']);
 
         return $resource->toResponse($request)->setStatusCode(201);
     }
@@ -160,10 +173,12 @@ class UserWebinarsController extends Controller
     public function destroy(int $webinarId): UserWebinarResource
     {
         Webinar::find($webinarId)?->firstOrFail();
-        $userWebinar = UserWebinar::where('webinar_id', $webinarId)->where('user_id', Auth::id())->firstOrFail();
+        $userWebinar = UserWebinar::where('webinar_id', $webinarId)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
         $userWebinar->delete();
 
-        return (new UserWebinarResource($userWebinar))
+        return (new UserWebinarResource($userWebinar->makeHidden('webinar')))
             ->additional(['info' => 'The user webinar has been deleted.']);
     }
 }

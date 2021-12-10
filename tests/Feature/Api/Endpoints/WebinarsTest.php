@@ -65,6 +65,7 @@ class WebinarsTest extends TestCase
             'price'             => $this->getCastedAttribute('price'),
             'type'              => $this->getCastedAttribute('type'),
             'status'            => $this->getCastedAttribute('status'),
+            'participants'      => $this->getCastedAttribute('participants'),
         ];
     }
 

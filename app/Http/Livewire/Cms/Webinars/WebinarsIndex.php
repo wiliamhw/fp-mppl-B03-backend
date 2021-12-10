@@ -21,6 +21,8 @@ class WebinarsIndex extends DatatableComponent
             DatatableColumn::make('category.id')->setInvisible(true),
             DatatableColumn::make('category.name')->setInvisible(true),
             DatatableColumn::make('title'),
+            DatatableColumn::make('participants'),
+            DatatableColumn::make('max_participants'),
             DatatableColumn::make('price')->setInvisible(true)->renderWith(function ($q) {
                 return formatRupiah($q->price);
             }),
@@ -34,7 +36,6 @@ class WebinarsIndex extends DatatableComponent
             DatatableColumn::make('type')->setInvisible(true)->renderWith(function ($q) {
                 return ($q->type === Webinar::TYPE_FREE) ? 'Free' : 'Paid';
             }),
-            DatatableColumn::make('max_participants')->setInvisible(true),
             DatatableColumn::make('published_at')->setInvisible(true),
             DatatableColumn::make('created_at')->setInvisible(true),
             DatatableColumn::make('updated_at')->setInvisible(true),
