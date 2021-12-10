@@ -14,18 +14,7 @@ class UserWebinarObserver
      */
     public function created(UserWebinar $userWebinar)
     {
-        $userWebinar->webinar->increment('participants');
-    }
-
-    /**
-     * Handle the UserWebinar "updated" event.
-     *
-     * @param  \App\Models\UserWebinar  $userWebinar
-     * @return void
-     */
-    public function updated(UserWebinar $userWebinar)
-    {
-        //
+        $userWebinar->webinar?->increment('participants');
     }
 
     /**
@@ -36,28 +25,6 @@ class UserWebinarObserver
      */
     public function deleted(UserWebinar $userWebinar)
     {
-        $userWebinar->webinar->decrement('participants');
-    }
-
-    /**
-     * Handle the UserWebinar "restored" event.
-     *
-     * @param  \App\Models\UserWebinar  $userWebinar
-     * @return void
-     */
-    public function restored(UserWebinar $userWebinar)
-    {
-        //
-    }
-
-    /**
-     * Handle the UserWebinar "force deleted" event.
-     *
-     * @param  \App\Models\UserWebinar  $userWebinar
-     * @return void
-     */
-    public function forceDeleted(UserWebinar $userWebinar)
-    {
-        //
+        $userWebinar->webinar?->decrement('participants');
     }
 }

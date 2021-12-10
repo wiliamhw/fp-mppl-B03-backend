@@ -76,8 +76,8 @@ class UserWebinarsController extends Controller
      */
     public function store(UserWebinarSaveRequest $request, UserWebinar $userWebinar): JsonResponse
     {
-        $webinar =  Webinar::find($request->webinar_id);
-        if (!$webinar || $webinar->max_participants < $webinar->participants + 1) {
+        $webinar = Webinar::where('id', $request->webinar_id)->firstOrFail();
+        if ($webinar->max_participants < $webinar->participants + 1) {
             throw new AuthorizationException(
                 'Kuota pendaftaran peserta pada webinar ini sudah dicapai.',
             );

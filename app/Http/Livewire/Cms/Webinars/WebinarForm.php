@@ -182,7 +182,7 @@ abstract class WebinarForm extends Component
     {
         $this->confirmAuthorization();
 
-        $this->participants = $this->webinar->participants;
+        $this->participants = $this->webinar->participants ?? 0;
 
         $this->categoryOptions = Category::pluck('name', 'id')->toArray();
         $this->isPublished = $this->webinar->isPublished() ? 'true' : 'false';
