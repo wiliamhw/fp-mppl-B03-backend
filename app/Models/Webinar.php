@@ -66,6 +66,7 @@ class Webinar extends Model implements HasMedia
         'price',
         'type',
         'zoom_id',
+        'participants',
         'max_participants',
         'published_at',
     ];

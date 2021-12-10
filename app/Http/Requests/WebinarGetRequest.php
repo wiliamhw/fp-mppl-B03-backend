@@ -36,6 +36,7 @@ class WebinarGetRequest extends FormRequest
             'filter.price' => 'integer|between:0,4294967295',
             'filter.type' => ['string', Rule::in(Webinar::TYPE)],
             'filter.zoom_id' => 'string|min:2|max:11',
+            'filter.participants' => 'integer|between:0,4294967295',
             'filter.max_participants' => 'integer|between:0,4294967295',
             'filter.partner_name' => 'string|min:2|max:255',
             'filter.published_at' => 'date',
