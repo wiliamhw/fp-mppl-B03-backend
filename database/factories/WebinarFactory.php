@@ -25,7 +25,6 @@ class WebinarFactory extends Factory
     {
         $price = $this->faker->boolean(25) ? 0 : $this->faker->numberBetween(1, 99999);
         $type  = ($price === 0) ? Webinar::TYPE_FREE : Webinar::TYPE_PAID;
-        $maxParticipant = $this->faker->numberBetween(0, 99999);
 
         return [
             'category_id' => Category::factory(),
@@ -39,7 +38,6 @@ class WebinarFactory extends Factory
             'price' => $price,
             'type' => $type,
             'zoom_id' => $this->faker->text(rand(6, 11)),
-            'participants' => $this->faker->numberBetween(0, $maxParticipant),
             'max_participants' => $this->faker->numberBetween(0, 99999),
             'published_at' => $this->faker->boolean(90) ?
                 Carbon::now()

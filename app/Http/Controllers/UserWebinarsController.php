@@ -78,6 +78,7 @@ class UserWebinarsController extends Controller
 
         $resource = (new UserWebinarResource($userWebinar))
             ->additional(['info' => 'The new user webinar has been saved.']);
+        unset($resource['webinar']);
 
         return $resource->toResponse($request)->setStatusCode(201);
     }
