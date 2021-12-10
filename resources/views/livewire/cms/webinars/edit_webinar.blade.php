@@ -47,6 +47,7 @@
                         </div>
                         {!! CmsForm::number('webinar.price', ['required' => false])->setTitle('Price (optional)')!!}
                         {!! CmsForm::text('webinar.zoom_id', ['required' => false])->setTitle('Zoom Id (optional)') !!}
+                        {!! CmsForm::number('participants', ['disabled' => 'disabled']) !!}
                         {!! CmsForm::number('webinar.max_participants') !!}
                         {!! CmsForm::select('isPublished', $isPublishedOptions)->setTitle('Is Published') !!}
 
