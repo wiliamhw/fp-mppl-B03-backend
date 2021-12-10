@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\Concerns\HandleApiExceptions;
 use App\Http\Requests\UserWebinarSaveRequest;
 use App\Http\Resources\UserWebinarCollection;
 use App\Http\Resources\UserWebinarResource;
 use App\Models\UserWebinar;
 use App\Models\Webinar;
 use App\QueryBuilders\UserWebinarBuilder;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Auth;
  */
 class UserWebinarsController extends Controller
 {
+    use HandleApiExceptions;
+
     /**
      * Resource Collection.
      * Display a collection of the user webinar resources in paginated document format.
@@ -71,6 +74,13 @@ class UserWebinarsController extends Controller
      */
     public function store(UserWebinarSaveRequest $request, UserWebinar $userWebinar): JsonResponse
     {
+        $webinar =  Webinar::find($request->webinar_id);
+        if (!$webinar || $webinar->max_participants < $webinar->participants + 1) {
+            throw new AuthorizationException(
+                'Kuota pendaftaran peserta pada webinar ini sudah dicapai.',
+            );
+        }
+
         $userWebinar->fill($request->only($userWebinar->offsetGet('fillable')));
         $userWebinar->user_id = (int) Auth::id();
         $userWebinar->payment_status = UserWebinar::PAYMENT_IN_PROGRESS;

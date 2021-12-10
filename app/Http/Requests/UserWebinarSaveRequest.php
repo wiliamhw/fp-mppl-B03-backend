@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\LimitParticipants;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +31,7 @@ class UserWebinarSaveRequest extends FormRequest
                 'required', 'integer', 'between:0,4294967295', 'exists:webinars,id',
                 Rule::unique('user_webinar')->where(function ($query) {
                     return $query->where('webinar_id', $this->webinar_id)->where('user_id', Auth::id());
-                }), new LimitParticipants()
+                })
             ],
             'payment_method' => 'required|string|min:2|max:45',
             'feedback' => 'nullable|string|min:2|max:65535',
