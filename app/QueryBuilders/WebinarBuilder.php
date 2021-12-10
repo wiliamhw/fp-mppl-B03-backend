@@ -90,7 +90,6 @@ final class WebinarBuilder extends Builder
     {
         return [
             'category',
-            'userWebinars',
             'users',
         ];
     }

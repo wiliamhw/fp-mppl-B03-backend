@@ -104,9 +104,8 @@ final class UserWebinarBuilder extends Builder
     protected function getAllowedIncludes(): array
     {
         return [
-            'user',
             'webinar',
-            'paymentLogs',
+//            'paymentLogs',
         ];
     }
 
@@ -121,15 +120,15 @@ final class UserWebinarBuilder extends Builder
             'payment_status',
             'payment_method',
             'feedback',
-            'payment_token',
             'user.email',
             'user.name',
             'user.phone_number',
-            'user.remember_token',
             'webinar.title',
             'webinar.description',
+            'webinar.price',
             'webinar.type',
             'webinar.zoom_id',
+            'webinar.max_participants',
         ];
     }
 
