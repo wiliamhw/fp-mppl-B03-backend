@@ -19,7 +19,7 @@ class SettingsController extends Controller
      *
      * @var bool
      */
-    protected static $requireAuthorization = true;
+    protected static $requireAuthorization = false;
 
     /**
      * SettingsController constructor.

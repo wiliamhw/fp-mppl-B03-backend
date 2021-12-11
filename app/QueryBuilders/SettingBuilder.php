@@ -32,9 +32,6 @@ final class SettingBuilder extends Builder
             'settings.type',
             'settings.key',
             'settings.value',
-            'settings.deleted_at',
-            'settings.created_at',
-            'settings.updated_at',
         ];
     }
 
@@ -50,16 +47,6 @@ final class SettingBuilder extends Builder
             'type',
             'key',
             'value',
-            AllowedFilter::exact('deleted_at'),
-            AllowedFilter::exact('created_at'),
-            AllowedFilter::exact('updated_at'),
-            AllowedFilter::exact('settings.id'),
-            'settings.type',
-            'settings.key',
-            'settings.value',
-            AllowedFilter::exact('settings.deleted_at'),
-            AllowedFilter::exact('settings.created_at'),
-            AllowedFilter::exact('settings.updated_at'),
         ];
     }
 
@@ -100,7 +87,6 @@ final class SettingBuilder extends Builder
             'type',
             'key',
             'value',
-            'deleted_at',
             'created_at',
             'updated_at',
         ];
