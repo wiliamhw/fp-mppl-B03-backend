@@ -35,7 +35,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/test/login', [TestController::class, 'login'])->name('test.login');
 
     Route::get('/users',  [UsersController::class, 'show'])->name('users.show');
-    Route::put('/users',  [UsersController::class, 'update'])->name('users.update');
+    Route::post('/users/update',  [UsersController::class, 'update'])->name('users.update');
     Route::get('/users/logout',  [UsersController::class, 'logout'])->name('users.logout');
 
     Route::apiResource('/user_webinars', 'UserWebinarsController')->except(['update']);
