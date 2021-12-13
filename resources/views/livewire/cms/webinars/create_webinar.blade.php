@@ -24,6 +24,7 @@
                         <x-input.image variable="webinarThumbnail" title="Webinar Thumnail" />
                         {!! CmsForm::select('webinar.category_id', $categoryOptions)->setTitle('Category') !!}
                         {!! CmsForm::text('webinar.title') !!}
+                        {!! CmsForm::textarea('webinar.brief_description', ['rows' => 3]) !!}
                         <div class="form-group">
                             <x-input.tinymce labelName="Description" wire:model.defer="webinar.description" />
                         </div>

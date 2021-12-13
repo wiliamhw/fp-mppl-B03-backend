@@ -25,6 +25,7 @@
 
                         {!! CmsForm::select('webinar.category_id', $categoryOptions, ['disabled'])->setTitle('Category') !!}
                         {!! CmsForm::text('webinar.title', ['disabled' => 'disabled']) !!}
+                        {!! CmsForm::textarea('webinar.brief_description', ['disabled' => 'disabled', 'rows' => 3]) !!}
                         {!! CmsForm::textarea('webinar.description', ['disabled' => 'disabled']) !!}
                         {!! CmsForm::datetime('webinar.start_at', ['disabled' => 'disabled']) !!}
                         {!! CmsForm::datetime('webinar.end_at', ['disabled' => 'disabled']) !!}

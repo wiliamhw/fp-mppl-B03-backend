@@ -60,6 +60,7 @@ class Webinar extends Model implements HasMedia
     protected $fillable = [
         'category_id',
         'title',
+        'brief_description',
         'description',
         'start_at',
         'end_at',
