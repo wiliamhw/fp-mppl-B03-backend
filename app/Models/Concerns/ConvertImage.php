@@ -84,12 +84,12 @@ trait ConvertImage
      */
     public function storeMedia(mixed $image, string $collectionName, string|null $imageUrl): void
     {
-        if (isset($imageUrl)) {
-            $this->clearMediaCollection($collectionName);
-        }
-
         if (!($image instanceof TemporaryUploadedFile)) {
             return;
+        }
+
+        if (isset($imageUrl)) {
+            $this->clearMediaCollection($collectionName);
         }
 
         $this
