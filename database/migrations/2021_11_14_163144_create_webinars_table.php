@@ -17,6 +17,7 @@ class CreateWebinarsTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('category_id')->unsigned();
             $table->string('title', 255);
+            $table->string('brief_description', 383);
             $table->mediumText('description');
             $table->dateTime('start_at');
             $table->dateTime('end_at');

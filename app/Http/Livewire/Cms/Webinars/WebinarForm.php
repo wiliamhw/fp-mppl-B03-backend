@@ -93,6 +93,7 @@ abstract class WebinarForm extends Component
                 Rule::unique('webinars', 'title')
                     ->ignore($this->webinar->id, 'id')
             ],
+            'webinar.brief_description' => 'required|string|min:2|max:383',
             'webinar.description'       => 'required|string|min:2|max:16777215',
             'webinar.start_at'          => 'required|date',
             'webinar.end_at'            => 'required|date|after_or_equal:webinar.start_at',
