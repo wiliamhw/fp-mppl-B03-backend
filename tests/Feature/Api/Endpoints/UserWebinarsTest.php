@@ -88,7 +88,17 @@ class UserWebinarsTest extends TestCase
     public function create_endpoint_works_as_expected()
     {
         // Submitted data
-        $data = UserWebinar::factory()->raw();
+        $webinar = Webinar::factory()->create();
+        $data = UserWebinar::factory([
+            'webinar_id' => $webinar->id
+        ])->raw();
+
+        if (!isset($webinar['type'])  || $webinar['type'] === Webinar::TYPE_FREE) {
+            $webinar->update([
+                'price' => 1,
+                'type' => Webinar::TYPE_PAID,
+            ]);
+        }
 
         // The data which should be shown
         $seenData = $data;
@@ -121,6 +131,39 @@ class UserWebinarsTest extends TestCase
             ->assertStatus(422)
             ->assertJsonMissing($seenData);
     }
+
+    /** @test */
+    public function auto_accept_payment_on_free_webinar()
+    {
+        // Submitted data
+        $webinar = Webinar::factory()->create();
+        $data = UserWebinar::factory([
+            'webinar_id' => $webinar->id
+        ])->raw();
+
+        if (!isset($webinar['type'])  || $webinar['type'] === Webinar::TYPE_PAID) {
+            $webinar->update([
+                'price' => 0,
+                'type' => Webinar::TYPE_FREE,
+            ]);
+        }
+
+        // The data which should be shown
+        $seenData = $data;
+        $seenData['payment_status'] = UserWebinar::PAYMENT_SUCCESS;
+        $seenData['user_id']        = $this->user->id;
+        $seenData['webinar_id']     = $data['webinar_id'];
+
+        $this->postJson($this->endpoint, $data)
+            ->assertStatus(201)
+            ->assertJsonFragment($seenData);
+
+        $this->assertDatabaseHas('webinars', [
+            'id'            => $data['webinar_id'],
+            'participants'  => 1,
+        ]);
+    }
+
 
     /** @test */
     public function delete_endpoint_works_as_expected()

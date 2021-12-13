@@ -85,7 +85,8 @@ class UserWebinarsController extends Controller
 
         $userWebinar->fill($request->only($userWebinar->offsetGet('fillable')));
         $userWebinar->user_id = (int) Auth::id();
-        $userWebinar->payment_status = UserWebinar::PAYMENT_IN_PROGRESS;
+        $userWebinar->payment_status = ($webinar->type === Webinar::TYPE_FREE)
+            ? UserWebinar::PAYMENT_SUCCESS : UserWebinar::PAYMENT_IN_PROGRESS;
         $userWebinar->save();
 
         $resource = (new UserWebinarResource($userWebinar))
