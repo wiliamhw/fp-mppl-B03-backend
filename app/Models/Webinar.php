@@ -7,6 +7,7 @@ use App\Models\Concerns\ConvertImage;
 use App\Models\Concerns\OldDateSerializer;
 use App\Models\User;
 use App\Models\UserWebinar;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -153,5 +154,17 @@ class Webinar extends Model implements HasMedia
     protected function getAllImageCollections(): array
     {
         return [self::IMAGE_COLLECTION];
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param DateTimeInterface $date
+     *
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d H:i');
     }
 }

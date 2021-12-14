@@ -4,6 +4,7 @@ namespace Tests\Feature\Api\Endpoints;
 
 use App\Models\User;
 use App\Models\Webinar;
+use DateTimeInterface;
 use Faker\Generator;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -53,6 +54,18 @@ class WebinarsTest extends TestCase
         $this->model = Webinar::factory()->create([
             'published_at' => now()
         ]);
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param DateTimeInterface $date
+     *
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d H:i');
     }
 
     private function getWebinarContents(): array

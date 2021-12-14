@@ -6,6 +6,7 @@ use App\Models\SeoMeta;
 use App\Models\User;
 use Carbon\Carbon;
 use Cms\Models\Concerns\HasSeoMeta;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -180,18 +181,6 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Serialize date to string.
-     *
-     * @param Carbon $date
-     *
-     * @return string
-     */
-    protected function serializeDate(Carbon $date): string
-    {
-        return $date->format('Y-m-d H:i:s');
-    }
-
-    /**
      * Cast attribute to appropriate type.
      *
      * @param string $key
@@ -214,6 +203,18 @@ abstract class TestCase extends BaseTestCase
             $data = json_encode($data);
         }
         return $data;
+    }
+
+    /**
+     * Prepare a date for array / JSON serialization.
+     *
+     * @param DateTimeInterface $date
+     *
+     * @return string
+     */
+    protected function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 
     /**
